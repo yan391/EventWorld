@@ -1,6 +1,11 @@
 <h1 align="center">EventWorld</h1>
 <p align="center"><strong>Forecasting Future Geometry from Events Alone</strong></p>
 <p align="center">
+  <strong>Junhao Yan<sup>1</sup>, Dachun Kai<sup>2</sup>, Xiaoyan Sun<sup>2</sup></strong><br>
+  <sup>1</sup> Wuhan University of Technology<br>
+  <sup>2</sup> University of Science and Technology of China
+</p>
+<p align="center">
   <a href="#driving-previews">Driving demos</a> &nbsp;·&nbsp;
   <a href="#method">Method</a> &nbsp;·&nbsp;
   <a href="#results">Results</a> &nbsp;·&nbsp;

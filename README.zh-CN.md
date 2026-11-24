@@ -1,6 +1,11 @@
 <h1 align="center">EventWorld</h1>
 <p align="center"><strong>仅用相机事件预测未来场景几何</strong></p>
 <p align="center">
+  <strong>Junhao Yan<sup>1</sup>, Dachun Kai<sup>2</sup>, Xiaoyan Sun<sup>2</sup></strong><br>
+  <sup>1</sup> 武汉理工大学<br>
+  <sup>2</sup> 中国科学技术大学
+</p>
+<p align="center">
   <a href="#驾驶演示">驾驶演示</a> &nbsp;·&nbsp;
   <a href="#方法">方法</a> &nbsp;·&nbsp;
   <a href="#实验结果">实验结果</a> &nbsp;·&nbsp;
