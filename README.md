@@ -6,6 +6,7 @@
   <sup>2</sup> University of Science and Technology of China
 </p>
 <p align="center">
+  <a href="https://yan391.github.io/EventWorld/">Project website</a> &nbsp;·&nbsp;
   <a href="#driving-previews">Driving demos</a> &nbsp;·&nbsp;
   <a href="#method">Method</a> &nbsp;·&nbsp;
   <a href="#results">Results</a> &nbsp;·&nbsp;
@@ -115,7 +116,7 @@ EventWorld returns a single prediction per horizon and can reuse the encoded his
 
 https://github.com/user-attachments/assets/f97a9686-65f5-4975-ba2f-0fb4683c1aa0
 
-[Original MP4](media/eventworld-film.mp4) · [English captions (.vtt)](media/film.en.vtt) · [Interactive comparison](http://40.81.25.249/#driving)
+[Original MP4](media/eventworld-film.mp4) · [English captions (.vtt)](media/film.en.vtt) · [Interactive comparison](https://yan391.github.io/EventWorld/#driving)
 
 ## Acknowledgments
 

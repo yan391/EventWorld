@@ -6,6 +6,7 @@
   <sup>2</sup> 中国科学技术大学
 </p>
 <p align="center">
+  <a href="https://yan391.github.io/EventWorld/">项目网站</a> &nbsp;·&nbsp;
   <a href="#驾驶演示">驾驶演示</a> &nbsp;·&nbsp;
   <a href="#方法">方法</a> &nbsp;·&nbsp;
   <a href="#实验结果">实验结果</a> &nbsp;·&nbsp;
@@ -78,7 +79,7 @@ EventWorld 读取过去 **150 毫秒**的相机事件，用一次前向传播预
 
 https://github.com/user-attachments/assets/f97a9686-65f5-4975-ba2f-0fb4683c1aa0
 
-[原版短片（MP4）](media/eventworld-film.mp4) · [英文字幕（VTT）](media/film.en.vtt) · [可逐帧拖动的交互对照](http://40.81.25.249/#driving)
+[原版短片（MP4）](media/eventworld-film.mp4) · [英文字幕（VTT）](media/film.en.vtt) · [可逐帧拖动的交互对照](https://yan391.github.io/EventWorld/#driving)
 
 ## 致谢
 
