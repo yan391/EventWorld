@@ -4,7 +4,7 @@
 
 This guide reproduces the released **P40530** depth forecasts. The forecasting model reads three contiguous 50 ms event packets. Each horizon uses one forward pass and the same observed history. The test data includes the event images, ordered TESPEC features, and depth/semantic labels, so you can run evaluation immediately after extraction.
 
-The archive and weights have been checked against the reference assets. The CPU scorer reproduces the archived per-case and aggregate metrics exactly. A fresh end-to-end GPU run of the public commands is pending.
+The release files passed integrity checks. The public `infer` and `test` commands completed end to end on an RTX 3090 24 GB with PyTorch 2.3.1 and CUDA 11.8. The run verified depth and point-cloud outputs from `infer` and scored the full EventScape test bundle. The CPU scorer also reproduced the archived A100 metrics from the archived predictions.
 
 ## 1. Set up the environment
 
@@ -148,6 +148,8 @@ The test first writes `predictions/*.npz` and a checksum manifest. It then loads
 | 800 ms | 0.1139 | 86.09% |
 
 The case index records the CUDA sampling seed for each window. These are the archived A100 reference values. Minor differences across GPU architectures, CUDA versions, and PyTorch kernels may occur. The score can be recalculated on CPU from a completed prediction bundle.
+
+The RTX 3090 run averaged **0.0948 AbsRel** and **90.10% δ₁** over the four horizons. The largest per-horizon differences from the A100 reference were 0.00053 AbsRel and 0.174 percentage points in δ₁.
 
 ```bash
 python -m eventworld score \
