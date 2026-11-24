@@ -4,6 +4,7 @@
   <a href="#driving-previews">Driving demos</a> &nbsp;·&nbsp;
   <a href="#method">Method</a> &nbsp;·&nbsp;
   <a href="#results">Results</a> &nbsp;·&nbsp;
+  <a href="docs/REPRODUCING.md">Run EventWorld</a> &nbsp;·&nbsp;
   <a href="#project-film">Film</a> &nbsp;·&nbsp;
   <a href="README.zh-CN.md">中文</a>
 </p>
@@ -43,7 +44,7 @@ Targets come from encoding events at the forecast time. This supervision lets th
 
 ## Results
 
-### Depth on held-out EventScape Town05
+### Depth forecasting on EventScape Town05
 
 EventWorld achieves the lowest AbsRel at all four reported horizons. The margin over DriveLaW (RGB) widens from **0.0007** at 200 ms to **0.0376** at 800 ms. Mean δ₁ is **90.13%** for EventWorld and **90.17%** for DriveLaW.
 
@@ -54,7 +55,7 @@ EventWorld achieves the lowest AbsRel at all four reported horizons. The margin 
 | VGGT-World | RGB | 0.0917 | 0.1131 | 0.1862 | 0.1645 | 0.1389 | 87.09% |
 | Copy-last | Events | 0.1202 | 0.1616 | 0.1903 | 0.2122 | 0.1711 | 78.30% |
 
-The four horizon columns report AbsRel. Evaluation uses **238 Town05 test windows** and non-sky reference depths within 30 m after per-prediction median scale alignment. [Full results (CSV)](results/eventscape-depth.csv)
+The four horizon columns report AbsRel on an EventScape Town05 evaluation subset, using non-sky reference depths within 30 m after per-prediction median scale alignment. [Full results (CSV)](results/eventscape-depth.csv)
 
 ![EventScape depth forecasts, ground truth, and signed depth errors in two scenes at 200 and 800 ms.](media/eventscape-depth.webp)
 

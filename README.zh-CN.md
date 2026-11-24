@@ -4,6 +4,7 @@
   <a href="#驾驶演示">驾驶演示</a> &nbsp;·&nbsp;
   <a href="#方法">方法</a> &nbsp;·&nbsp;
   <a href="#实验结果">实验结果</a> &nbsp;·&nbsp;
+  <a href="docs/REPRODUCING.zh-CN.md">推理与测试</a> &nbsp;·&nbsp;
   <a href="#项目视频">项目短片</a> &nbsp;·&nbsp;
   <a href="README.md">English</a>
 </p>
@@ -41,7 +42,7 @@ EventWorld 读取过去 **150 毫秒**的相机事件，用一次前向传播预
 
 ## 实验结果
 
-- **EventScape Town05 深度。** 在训练未见的 Town05 上评测 238 个窗口。200、400、600、800 毫秒四个时距的平均 AbsRel 为 **0.0946**，相对 RGB 基线 DriveLaW 的 **0.1170** 降低 **19.1%**。平均 δ₁ 为 **90.13%**，DriveLaW 为 **90.17%**。评测对每个预测做中位数尺度对齐，使用 30 米内的非天空像素。[结果 CSV](results/eventscape-depth.csv)
+- **EventScape Town05 深度。** 在本发布使用的评测子集上，200、400、600、800 毫秒四个时距的平均 AbsRel 为 **0.0946**，相对 RGB 基线 DriveLaW 的 **0.1170** 降低 **19.1%**。平均 δ₁ 为 **90.13%**，DriveLaW 为 **90.17%**。评测对每个预测做中位数尺度对齐，使用 30 米内的非天空像素。[结果 CSV](results/eventscape-depth.csv)
 - **EventScape 点云与 M3ED 位姿。** EventScape 在 200 和 800 毫秒的平均点云 F-score 为 **44.65%**，DriveLaW 为 **40.55%**，阈值为参考点云半径的 1%。M3ED 零样本评测中，经逐窗口相似变换对齐后的绝对轨迹误差为 **0.0973 米**，DriveLaW 为 **0.1039 米**。
 - **真实低照与高速序列。** 直接将 EventScape 训练的模型用于一个 DSEC 低照录制和一个 PEOD 高速录制。在 100–800 毫秒的八个时距上，相比 VGGT-World（RGB）的平均 AbsRel 分别降低 **50.4%** 和 **59.8%**。DSEC 的参考深度由标定视差得到，PEOD 使用 EventVGGT 生成的伪深度。[结果 CSV](results/zero-shot-depth.csv)
 
