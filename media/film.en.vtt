@@ -1,0 +1,73 @@
+WEBVTT
+
+1
+00:00:00.790 --> 00:00:04.931
+EventWorld: Forecasting Future Geometry from Events Alone
+
+2
+00:00:06.520 --> 00:00:11.454
+At night, events reveal edges that RGB can miss.
+
+3
+00:00:12.270 --> 00:00:15.578
+Events still reveal edges during fast motion.
+
+4
+00:00:16.530 --> 00:00:19.400
+We use three past event packets.
+
+5
+00:00:20.390 --> 00:00:23.686
+Two frozen encoders capture structure and motion.
+
+6
+00:00:24.600 --> 00:00:26.664
+Geometry guides the fusion.
+
+7
+00:00:27.610 --> 00:00:30.917
+One pass forecasts the future geometric state.
+
+8
+00:00:33.620 --> 00:00:38.074
+The frozen decoder outputs depth, point clouds, and camera poses.
+
+9
+00:00:40.030 --> 00:00:44.175
+We query each horizon directly from the same history.
+
+10
+00:00:49.120 --> 00:00:54.877
+On a city street, we show rolling forecasts at real-time playback speed.
+
+11
+00:00:58.720 --> 00:01:04.465
+At a bend on the bridge, the forecast updates as the vehicle turns.
+
+12
+00:01:08.160 --> 00:01:12.291
+For scene distances, EventWorld has the lowest depth error.
+
+13
+00:01:13.030 --> 00:01:16.285
+Point clouds reveal the scene's layout.
+
+14
+00:01:16.800 --> 00:01:19.674
+The road and buildings remain recognizable.
+
+15
+00:01:20.760 --> 00:01:25.245
+Camera poses capture motion. Orange is predicted, blue is measured.
+
+16
+00:01:26.980 --> 00:01:31.514
+In this night scene, EventWorld more than halves depth error.
+
+17
+00:01:33.200 --> 00:01:36.842
+EventWorld achieves lower depth error than both baselines.
+
+18
+00:01:39.810 --> 00:01:42.929
+From past events to future geometry.

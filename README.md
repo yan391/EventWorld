@@ -4,11 +4,22 @@
 
 EventWorld forecasts what a scene will look like geometrically at a chosen future time. It takes **150 ms of camera events** and produces **depth, point clouds, and camera poses** through a shared geometry decoder.
 
-**[Interactive demo](http://40.81.25.249/#driving)** · **[Project film](http://40.81.25.249/#film)** · **[Experimental results](#results)** · **[中文介绍](README.zh-CN.md)**
+**[Driving previews](#driving-previews)** · **[Method](#method)** · **[Experimental results](#results)** · **[Project film](#project-film)** · **[中文介绍](README.zh-CN.md)**
 
-[![An EventScape street scene at the target time on the left and EventWorld's 200 ms depth forecast on the right.](media/forecast-preview.jpg)](http://40.81.25.249/#driving)
+![An EventScape street scene at the target time beside EventWorld's 200 ms depth forecast.](media/forecast-preview.jpg)
 
-The demo has two synchronized driving sequences. Drag the divider and scrub through either clip, then switch the depth view between EventWorld, VGGT-World (RGB), and ground truth. The target-time RGB frame provides a visual reference. EventWorld uses only past event packets to make its forecasts.
+## Driving previews
+
+Each clip shows the target-time RGB reference alongside EventWorld's depth forecast at **+200 ms**. The forecast uses only events recorded before the observation cutoff.
+
+![Urban street sequence showing synchronized target-time RGB and forecast depth at 200 ms.](media/urban-forecast.gif)
+
+<details>
+<summary>Bridge bend sequence</summary>
+
+![Bridge sequence showing synchronized target-time RGB and forecast depth at 200 ms.](media/bridge-forecast.gif)
+
+</details>
 
 ## Method
 
@@ -35,6 +46,8 @@ EventWorld has the lowest **AbsRel** at all four reported horizons. Relative to 
 
 The four horizon columns report AbsRel. The evaluation uses 238 windows from the Town05 test archive and scores non-sky reference depths within 30 m after per-prediction median scale alignment. [Complete EventScape depth table (CSV)](results/eventscape-depth.csv)
 
+![EventScape depth forecasts, ground truth, and signed depth errors in two scenes at 200 and 800 ms.](media/eventscape-depth.webp)
+
 ### Point clouds and camera motion
 
 | Task | Protocol | EventWorld | DriveLaW (RGB) |
@@ -43,7 +56,19 @@ The four horizon columns report AbsRel. The evaluation uses 238 windows from the
 | Point-cloud forecasting | Mean F-score at 1% of the reference cloud radius, 200 and 800 ms ↑ | **44.65%** | 40.55% |
 | Camera-pose forecasting | Absolute trajectory error on M3ED, zero-shot, after per-window similarity alignment ↓ | **0.0973 m** | 0.1039 m |
 
-See [depth, point-cloud, and pose examples](http://40.81.25.249/#results).
+<details>
+<summary>EventScape point-cloud forecasts</summary>
+
+![Reference and predicted point clouds from EventScape at 200, 400, and 800 ms.](media/eventscape-cloud.webp)
+
+</details>
+
+<details>
+<summary>M3ED camera-pose forecasts</summary>
+
+![Ground-truth and predicted M3ED camera trajectories through 800 ms for two examples.](media/m3ed-poses.webp)
+
+</details>
 
 ### Transfer to real recordings
 
@@ -52,10 +77,20 @@ See [depth, point-cloud, and pose examples](http://40.81.25.249/#results).
 | DSEC low-light driving | 83 | Calibrated disparity, 30 m and common visibility | **50.4%** |
 | PEOD high-speed motion | 73 | Target-time EventVGGT pseudo-depth | **59.8%** |
 
-EventWorld transfers from EventScape without fine-tuning on these recordings. The reductions average eight forecast horizons from 100 to 800 ms. [Explore the curves](http://40.81.25.249/#transfer) · [Download the zero-shot depth table (CSV)](results/zero-shot-depth.csv)
+EventWorld transfers from EventScape without fine-tuning on these recordings. The reductions average eight forecast horizons from 100 to 800 ms. [Download the zero-shot depth table (CSV)](results/zero-shot-depth.csv)
+
+![AbsRel versus forecast horizon on DSEC and PEOD. EventWorld has the lowest reported error at each of the eight horizons on both recordings.](media/transfer-curves.png)
 
 ![Examples of DSEC low-light driving and PEOD high-speed motion with signed relative depth errors at a 400 ms forecast horizon.](media/transfer-qualitative.webp)
 
 ### Efficiency and scope
 
 On an NVIDIA A100, inference takes about **0.28 s per query** across the measured 200–800 ms horizons. The encoded history can be shared across queries. EventWorld returns a single prediction at each requested horizon. When both the camera and the scene are still, sparse events limit what it can observe.
+
+## Project film
+
+The film covers the method, both driving sequences, and the forecasting experiments.
+
+![EventWorld project film poster.](media/film-poster.webp)
+
+[Full film (.mp4)](media/eventworld-film.mp4) · [English captions (.vtt)](media/film.en.vtt) · [Interactive comparison](http://40.81.25.249/#driving)
