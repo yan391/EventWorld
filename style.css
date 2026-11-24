@@ -67,14 +67,15 @@ nav a:hover, .site-footer a:hover { color: var(--accent); text-decoration: under
 .title-detail { font: 400 clamp(1.65rem, 3.55vw, 3.23rem)/1.08 var(--serif); letter-spacing: -.04em; margin-top: .83rem; }
 .title-detail span { display: block; }
 .paper-authors {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .65rem 1.85rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11.5rem), 1fr));
+  gap: .8rem 1.4rem;
   margin-top: 1.35rem;
   line-height: 1.45;
 }
 .author-names { font-weight: 650; }
 .author-affiliation { margin-top: .15rem; color: var(--muted); font-size: .875rem; }
+.author-role { margin-top: .2rem; color: var(--accent); font-size: .875rem; font-weight: 650; }
 .hero-summary { max-width: 27rem; padding-bottom: .05rem; }
 .hero-summary p { color: var(--muted); font-size: clamp(1rem, 1.4vw, 1.16rem); line-height: 1.65; text-wrap: pretty; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1.4rem; }
