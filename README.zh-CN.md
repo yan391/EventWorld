@@ -9,7 +9,7 @@
   <a href="#驾驶演示">驾驶演示</a> &nbsp;·&nbsp;
   <a href="#方法">方法</a> &nbsp;·&nbsp;
   <a href="#实验结果">实验结果</a> &nbsp;·&nbsp;
-  <a href="docs/REPRODUCING.zh-CN.md">推理与测试</a> &nbsp;·&nbsp;
+  <a href="#运行-eventworld">推理与测试</a> &nbsp;·&nbsp;
   <a href="#项目视频">项目短片</a> &nbsp;·&nbsp;
   <a href="README.md">English</a>
 </p>
@@ -44,6 +44,14 @@ EventWorld 读取过去 **150 毫秒**的相机事件，用一次前向传播预
 3. **解码几何。** 共享解码器结合历史状态和预测状态，恢复未来深度、点云和相机位姿。
 
 训练时，模型用目标时刻的事件构造监督信号，预测模块无需深度或位姿标注。
+
+## 运行 EventWorld
+
+使用 Linux、Python 3.10、PyTorch 2.3.1 的 CUDA 11.8 安装包，以及一张支持原生 BF16 的 NVIDIA GPU。配置环境后，下载两份必需权重和处理好的测试数据。用 `python -m eventworld infer` 推理单个窗口，或用 `python -m eventworld test` 生成预测并计算深度指标。指南提供可直接复制的命令、文件路径、校验步骤和参考结果。[中文推理与测试指南](docs/REPRODUCING.zh-CN.md)
+
+- 模型权重。[EventWorld P40530 权重](https://drive.google.com/file/d/1__Oy_SLwvmeaPiMeYueL2Ab7mz15f09L/view?usp=sharing) · [必需的 EventVGGT 感知权重](https://huggingface.co/yinruiRen/EventVGGT/blob/main/checkpoint.pt) · [可选的 EventVGGT 位姿权重](https://huggingface.co/yinruiRen/EventVGGT/blob/main/checkpoint_pose.pt)
+- 处理好的输入和评分标签。[EventScape 测试数据](https://drive.google.com/file/d/159yCwVb9cn0hP5X1yp42RiW9bJhKVc7E/view?usp=sharing)
+- 原始数据集官网。[EventScape](https://rpg.ifi.uzh.ch/RAMNet.html) · [DSEC](https://dsec.ifi.uzh.ch/dsec-datasets/download/) · [PEOD](https://echosliu.github.io/PEOD-dataset/) · [M3ED](https://m3ed.io/sequences/)
 
 ## 实验结果
 

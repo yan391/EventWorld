@@ -8,7 +8,7 @@ The archive and weights have been checked against the reference assets. The CPU 
 
 ## 1. Set up the environment
 
-Use Linux with Python 3.10 and an NVIDIA Ampere or later CUDA GPU with native BF16 support. The reference environment uses an A100 40 GB, PyTorch 2.3.1, and CUDA 11.8. Use a writable output directory with enough space for forecasts. Driver compatibility depends on the PyTorch wheel and the GPU.
+Use Linux with Python 3.10, Git, `curl`, `tar`, and `sha256sum`. For inference and testing, use one NVIDIA Ampere or later GPU with native BF16 support and a driver compatible with the CUDA 11.8 PyTorch wheels. The reference runs used an A100 40 GB. Install the pinned environment from the repository root.
 
 ```bash
 git clone https://github.com/yan391/EventWorld.git
@@ -19,37 +19,50 @@ source .venv/bin/activate
 python -m pip install torch==2.3.1 torchvision==0.18.1 --index-url https://download.pytorch.org/whl/cu118
 python -m pip install -r requirements.txt
 
-python -c 'import torch; print(torch.__version__, torch.version.cuda, torch.cuda.is_available(), torch.cuda.is_bf16_supported())'
+python -m pip check
 python -m eventworld --help
 ```
 
-Both CUDA checks should print `True`. Set `CUDA_VISIBLE_DEVICES=0` before launch to select one GPU. CPU-only machines can use `verify-data` and `score`.
+Check the GPU selected for inference. The command prints the model, compute capability, and CUDA runtime and checks that BF16 is available natively.
+
+```bash
+nvidia-smi
+CUDA_VISIBLE_DEVICES=0 python - <<'PY'
+import torch
+
+assert torch.cuda.is_available(), "PyTorch cannot see a CUDA GPU"
+capability = torch.cuda.get_device_capability()
+print(torch.cuda.get_device_name(), capability, torch.__version__, torch.version.cuda)
+assert capability[0] >= 8 and torch.cuda.is_bf16_supported(), "Native BF16 is required"
+PY
+```
+
+Set `CUDA_VISIBLE_DEVICES` to the index of the GPU you want to use. CPU-only machines can use `verify-data` and `score`.
 
 To check the scoring rules on CPU, run `python -m unittest discover -s tests`.
 
 ## 2. Download the model and test data
 
-| Asset | File | Source |
+| Asset | Save as | Download |
 | :--- | :--- | :--- |
-| EventWorld checkpoint | `EventWorld-P40530.safetensors` | Google Drive link pending |
-| EventScape test data | `EventScape-test-data.tar.gz` | Google Drive link pending |
-| EventVGGT perception checkpoint | `checkpoint.pt` | [Official EventVGGT weights](https://huggingface.co/yinruiRen/EventVGGT/blob/main/checkpoint.pt) |
-| EventVGGT pose checkpoint, optional | `checkpoint_pose.pt` | [Official EventVGGT pose weights](https://huggingface.co/yinruiRen/EventVGGT/blob/main/checkpoint_pose.pt) |
+| EventWorld P40530 weights · 1.73 GB | `weights/EventWorld-P40530.safetensors` | [Google Drive](https://drive.google.com/file/d/1__Oy_SLwvmeaPiMeYueL2Ab7mz15f09L/view?usp=sharing) |
+| EventScape test data · 141 MB | `data/EventScape-test-data.tar.gz` | [Google Drive](https://drive.google.com/file/d/159yCwVb9cn0hP5X1yp42RiW9bJhKVc7E/view?usp=sharing) |
+| EventVGGT perception weights | `weights/checkpoint.pt` | [Official EventVGGT release](https://huggingface.co/yinruiRen/EventVGGT/blob/main/checkpoint.pt) |
+| EventVGGT pose weights (optional) | `weights/checkpoint_pose.pt` | [Official EventVGGT pose release](https://huggingface.co/yinruiRen/EventVGGT/blob/main/checkpoint_pose.pt) |
 
-Put the weights under `weights/` and extract the archive under `data/`. The paths in the following commands are relative to the Git repository root. Full SHA-256 values are in [SHA256SUMS](SHA256SUMS). The P40530 checkpoint contains the released predictor and fusion parameters. The EventVGGT perception checkpoint provides the frozen geometry encoder, decoder, and depth head.
+P40530 contains the released predictor and fusion parameters. The CLI loads it together with the EventVGGT perception checkpoint, which provides the frozen geometry encoder, decoder, and depth head. Run `mkdir -p weights data outputs` in the repository root. Use the Download button on each Google Drive page, then place the files at the paths in the table. Download `checkpoint.pt` from the official release with the command below, then verify the three required files before extracting.
 
 ```bash
-mkdir -p weights data outputs
-# Place the downloaded EventWorld checkpoint and EventScape archive in weights/ and data/.
 curl --fail --location --retry 3 \
   https://huggingface.co/yinruiRen/EventVGGT/resolve/main/checkpoint.pt \
-  --output weights/checkpoint.pt
-sha256sum --check docs/SHA256SUMS --ignore-missing
-tar -xmzf data/EventScape-test-data.tar.gz -C data
-python -m eventworld verify-data --data data/EventScape-test-data
+  --output weights/checkpoint.pt.part &&
+  mv weights/checkpoint.pt.part weights/checkpoint.pt &&
+  (grep -v ' weights/checkpoint_pose\.pt$' docs/SHA256SUMS | sha256sum --check -) &&
+  tar -xmzf data/EventScape-test-data.tar.gz -C data &&
+  python -m eventworld verify-data --data data/EventScape-test-data
 ```
 
-The extracted folder contains `inputs/index.json`, `inputs/events/`, `inputs/features/`, `targets/index.json`, and `assets.json`. The indices describe sample provenance, case identifiers, recording groups, and query timestamps. The test archive is the processed EventScape subset used by this release.
+The integrity check should report `OK` for all three files listed in [SHA256SUMS](SHA256SUMS) for the depth test. The extracted folder contains `inputs/index.json`, `inputs/events/`, `inputs/features/`, `targets/index.json`, and `assets.json`. The indices describe sample provenance, case identifiers, recording groups, and query timestamps.
 
 ## 3. Run a forecast
 
@@ -84,7 +97,7 @@ with np.load(file, allow_pickle=False) as output:
     print(output["depth"].shape)
 ```
 
-To export camera-frame point clouds, add `--intrinsics 256 256 252 126` for the released EventScape crop. It adds `xyz_camera[Q,252,504,3]` in the model's relative depth scale. For different cropped camera frames, supply their actual `fx fy cx cy` values. To read camera poses, add `--camera-checkpoint weights/checkpoint_pose.pt`. The resulting `world_to_camera[Q,2,4,4]` stores the last observed and forecast extrinsics for each query's decoder context. Pose translations are scale-ambiguous. For each query, the transform mapping the forecast camera frame into the current camera frame is `E_current @ np.linalg.inv(E_future)`.
+To export camera-frame point clouds, add `--intrinsics 256 256 252 126` for the released EventScape crop. It adds `xyz_camera[Q,252,504,3]` in the model's relative depth scale. For different cropped camera frames, supply their actual `fx fy cx cy` values. For camera poses, download the optional `weights/checkpoint_pose.pt`, verify it with `grep ' weights/checkpoint_pose\.pt$' docs/SHA256SUMS | sha256sum --check -`, and add `--camera-checkpoint weights/checkpoint_pose.pt` to `infer`. The resulting `world_to_camera[Q,2,4,4]` stores the last observed and forecast extrinsics for each query's decoder context. Pose translations are scale-ambiguous. For each query, the transform mapping the forecast camera frame into the current camera frame is `E_current @ np.linalg.inv(E_future)`.
 
 ### Run inference on your own prepared history
 
@@ -102,7 +115,19 @@ Pass three 50 ms packet images from oldest to newest, ending at −100, −50, a
 
 ## 4. Run the EventScape test
 
-For a quick end-to-end check, append `--limit 1` and choose a new output path. Run the full command to score the entire release bundle.
+Run a one-window check first. It loads both checkpoints, forecasts four horizons, and scores the predictions against the included labels.
+
+```bash
+CUDA_VISIBLE_DEVICES=0 python -m eventworld test \
+  --data data/EventScape-test-data \
+  --weights weights/EventWorld-P40530.safetensors \
+  --eventvggt weights/checkpoint.pt \
+  --horizons 200 400 600 800 \
+  --limit 1 \
+  --output outputs/eventscape-smoke
+```
+
+Run the full test with a fresh output path.
 
 ```bash
 CUDA_VISIBLE_DEVICES=0 python -m eventworld test \

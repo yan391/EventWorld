@@ -9,7 +9,7 @@
   <a href="#driving-previews">Driving demos</a> &nbsp;·&nbsp;
   <a href="#method">Method</a> &nbsp;·&nbsp;
   <a href="#results">Results</a> &nbsp;·&nbsp;
-  <a href="docs/REPRODUCING.md">Run EventWorld</a> &nbsp;·&nbsp;
+  <a href="#run-eventworld">Run EventWorld</a> &nbsp;·&nbsp;
   <a href="#project-film">Film</a> &nbsp;·&nbsp;
   <a href="README.zh-CN.md">中文</a>
 </p>
@@ -46,6 +46,14 @@ Moving edges generate brightness changes that carry information about both geome
 3. **Decode.** A shared frozen decoder reads the forecast state alongside the original history to recover depth, point clouds, and camera poses.
 
 Targets come from encoding events at the forecast time. This supervision lets the forecaster train without depth or pose annotations.
+
+## Run EventWorld
+
+Use Linux, Python 3.10, the PyTorch 2.3.1 CUDA 11.8 wheels, and one NVIDIA GPU with native BF16 support. Set up the pinned environment, download the two required checkpoints and the prepared test data, then run `python -m eventworld infer` for one window or `python -m eventworld test` to produce predictions and depth scores. The guide includes copy-paste commands, file paths, checksums, and reference scores. [Inference and testing guide](docs/REPRODUCING.md)
+
+- Released model. [EventWorld P40530 weights](https://drive.google.com/file/d/1__Oy_SLwvmeaPiMeYueL2Ab7mz15f09L/view?usp=sharing) · [Required EventVGGT perception weights](https://huggingface.co/yinruiRen/EventVGGT/blob/main/checkpoint.pt) · [Optional EventVGGT pose weights](https://huggingface.co/yinruiRen/EventVGGT/blob/main/checkpoint_pose.pt)
+- Prepared inputs and scoring labels. [EventScape test data](https://drive.google.com/file/d/159yCwVb9cn0hP5X1yp42RiW9bJhKVc7E/view?usp=sharing)
+- Original dataset pages. [EventScape](https://rpg.ifi.uzh.ch/RAMNet.html) · [DSEC](https://dsec.ifi.uzh.ch/dsec-datasets/download/) · [PEOD](https://echosliu.github.io/PEOD-dataset/) · [M3ED](https://m3ed.io/sequences/)
 
 ## Results
 
