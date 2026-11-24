@@ -1,9 +1,11 @@
 <h1 align="center">EventWorld</h1>
 <p align="center"><strong>仅用相机事件预测未来场景几何</strong></p>
 <p align="center">
-  <strong>Junhao Yan<sup>1</sup>, Dachun Kai<sup>2</sup>, Xiaoyan Sun<sup>2</sup></strong><br>
-  <sup>1</sup> 武汉理工大学<br>
-  <sup>2</sup> 中国科学技术大学
+  <strong>Junhao Yan<sup>1</sup>, Dachun Kai<sup>2*</sup>, Xiaoyan Sun<sup>3</sup></strong><br>
+  <sup>1</sup> 武汉理工大学（Wuhan, China）<br>
+  <sup>2</sup> NTU, Singapore, Singapore<br>
+  <sup>3</sup> 中国科学技术大学（Hefei, China）<br>
+  <sup>*</sup> 通讯作者
 </p>
 <p align="center">
   <a href="https://yan391.github.io/EventWorld/">项目网站</a> &nbsp;·&nbsp;
