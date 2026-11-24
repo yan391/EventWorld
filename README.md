@@ -102,3 +102,10 @@ EventWorld returns a single prediction per horizon and can reuse the encoded his
 <img src="media/film-poster.webp" width="640" alt="EventWorld project film poster">
 
 [Full film (.mp4)](media/eventworld-film.mp4) · [English captions (.vtt)](media/film.en.vtt) · [Interactive comparison](http://40.81.25.249/#driving)
+
+## Acknowledgments
+
+We thank the authors of VGGT-World and EventVGGT for releasing the pretrained models that EventWorld builds on.
+
+- **VGGT-World.** Its KITTI checkpoint initializes EventWorld’s forecasting predictor. VGGT-World also serves as a forecasting baseline in our experiments. [Paper](https://arxiv.org/abs/2603.12655) · [Code](https://github.com/SimonSun0810/VGGT-World)
+- **EventVGGT.** Its public perception weights provide the frozen geometry encoder, decoder, and depth head. Camera-pose forecasting uses the camera head from its official pose checkpoint. [Paper](https://arxiv.org/abs/2603.09385) · [Code](https://github.com/yinruiRen/EventVGGT)
