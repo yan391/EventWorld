@@ -86,3 +86,7 @@ EventWorld 读取过去 **150 毫秒**的相机事件，用一次前向传播预
 
 - **VGGT-World。** 我们用其 KITTI 权重初始化 EventWorld 的预测器，也在实验中将 VGGT-World 作为预测基线。[论文](https://arxiv.org/abs/2603.12655) · [代码](https://github.com/SimonSun0810/VGGT-World)
 - **EventVGGT。** 我们用其公开感知权重构建冻结的几何编码器、解码器和深度预测头，相机位姿预测使用其官方位姿权重中的相机预测头。[论文](https://arxiv.org/abs/2603.09385) · [代码](https://github.com/yinruiRen/EventVGGT)
+
+## 许可证
+
+EventWorld 自研代码和测试采用 MIT 许可证。上游代码、模型权重与数据的来源和适用条款见许可说明。[MIT 许可证](LICENSE) · [来源与许可说明](THIRD_PARTY_NOTICES.md)

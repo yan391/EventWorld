@@ -138,3 +138,7 @@ python -m eventworld score \
 | M3ED | [官方序列目录](https://m3ed.io/sequences/) |
 
 `test` 读取上方发布包的目录结构。其他数据集按各自官网获取，准备好与事件图对应的 TESPEC 特征后，可以通过 `infer --images ... --features ...` 运行自有输入。
+
+## 来源与许可证
+
+MIT 许可证适用于 EventWorld 自研代码和测试。上游代码、模型权重、EventScape 数据及 TESPEC 特征的来源见许可说明。[MIT 许可证](../LICENSE) · [来源与许可说明](../THIRD_PARTY_NOTICES.md)

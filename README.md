@@ -123,3 +123,7 @@ We thank the authors of VGGT-World and EventVGGT for releasing the pretrained mo
 
 - **VGGT-World.** Its KITTI checkpoint initializes EventWorld’s forecasting predictor. VGGT-World also serves as a forecasting baseline in our experiments. [Paper](https://arxiv.org/abs/2603.12655) · [Code](https://github.com/SimonSun0810/VGGT-World)
 - **EventVGGT.** Its public perception weights provide the frozen geometry encoder, decoder, and depth head. Camera-pose forecasting uses the camera head from its official pose checkpoint. [Paper](https://arxiv.org/abs/2603.09385) · [Code](https://github.com/yinruiRen/EventVGGT)
+
+## License
+
+The original EventWorld source code and tests are available under the MIT License. Upstream code, checkpoints, and data have their own terms. [MIT License](LICENSE) · [Source and license notices](THIRD_PARTY_NOTICES.md)

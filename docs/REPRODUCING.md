@@ -171,4 +171,4 @@ The EventScape scorer consumes the release bundle layout. The other datasets ret
 
 ## Source and licenses
 
-EventWorld uses vendored model components from [EventVGGT](https://github.com/yinruiRen/EventVGGT) and [VGGT-World](https://github.com/SimonSun0810/VGGT-World) matched to the recorded numerical path. Upstream license copies are included for [EventVGGT](../eventworld/_vendor/LICENSES/EventVGGT-MIT.txt) and [VGGT-derived code](../eventworld/_vendor/LICENSES/VGGT-License.txt). EventScape data comes from the [original EventScape project](https://rpg.ifi.uzh.ch/RAMNet.html). Please cite the dataset authors when using these assets.
+The MIT license covers original EventWorld code and tests. See the notices for vendored source, checkpoint provenance, and the EventScape and TESPEC attributions. [MIT License](../LICENSE) · [Source and license notices](../THIRD_PARTY_NOTICES.md)
