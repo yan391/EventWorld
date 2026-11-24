@@ -76,9 +76,9 @@ EventWorld 读取过去 **150 毫秒**的相机事件，用一次前向传播预
 
 ## 项目视频
 
-<img src="media/film-poster.webp" width="640" alt="EventWorld 项目短片封面">
+https://github.com/user-attachments/assets/f97a9686-65f5-4975-ba2f-0fb4683c1aa0
 
-[完整短片（MP4）](media/eventworld-film.mp4) · [英文字幕（VTT）](media/film.en.vtt) · [可逐帧拖动的交互对照](http://40.81.25.249/#driving)
+[原版短片（MP4）](media/eventworld-film.mp4) · [英文字幕（VTT）](media/film.en.vtt) · [可逐帧拖动的交互对照](http://40.81.25.249/#driving)
 
 ## 致谢
 

@@ -113,9 +113,9 @@ EventWorld returns a single prediction per horizon and can reuse the encoded his
 
 ## Project film
 
-<img src="media/film-poster.webp" width="640" alt="EventWorld project film poster">
+https://github.com/user-attachments/assets/f97a9686-65f5-4975-ba2f-0fb4683c1aa0
 
-[Full film (.mp4)](media/eventworld-film.mp4) · [English captions (.vtt)](media/film.en.vtt) · [Interactive comparison](http://40.81.25.249/#driving)
+[Original MP4](media/eventworld-film.mp4) · [English captions (.vtt)](media/film.en.vtt) · [Interactive comparison](http://40.81.25.249/#driving)
 
 ## Acknowledgments
 
