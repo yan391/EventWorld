@@ -1,41 +1,51 @@
-# EventWorld
+<h1 align="center">EventWorld</h1>
+<p align="center"><strong>Forecasting Future Geometry from Events Alone</strong></p>
+<p align="center">
+  <a href="#driving-previews">Driving demos</a> &nbsp;·&nbsp;
+  <a href="#method">Method</a> &nbsp;·&nbsp;
+  <a href="#results">Results</a> &nbsp;·&nbsp;
+  <a href="#project-film">Film</a> &nbsp;·&nbsp;
+  <a href="README.zh-CN.md">中文</a>
+</p>
 
-**Forecasting Future Geometry from Events Alone**
+![An EventScape street scene beside EventWorld's 200 ms depth forecast, with a timeline from the three past event packets to the forecast time.](media/forecast-preview.jpg)
 
-EventWorld forecasts what a scene will look like geometrically at a chosen future time. It takes **150 ms of camera events** and produces **depth, point clouds, and camera poses** through a shared geometry decoder.
+EventWorld turns **150 ms of camera events** into a forecast of **depth, point clouds, and camera poses** at a chosen future time. Its horizon-conditioned predictor generates the requested state in one forward pass.
 
-**[Driving previews](#driving-previews)** · **[Method](#method)** · **[Experimental results](#results)** · **[Project film](#project-film)** · **[中文介绍](README.zh-CN.md)**
-
-![An EventScape street scene at the target time beside EventWorld's 200 ms depth forecast.](media/forecast-preview.jpg)
+| EventScape Town05 | DSEC low-light driving | Inference on NVIDIA A100 |
+| :--- | :--- | :--- |
+| **19.1%** lower mean AbsRel than DriveLaW (RGB) | **50.4%** lower mean AbsRel than VGGT-World (RGB) on one recording | **≈0.28 s** per query across 200–800 ms |
 
 ## Driving previews
 
-Each clip shows the target-time RGB reference alongside EventWorld's depth forecast at **+200 ms**. The forecast uses only events recorded before the observation cutoff.
+The clips show a **+200 ms** depth forecast beside the RGB frame at that time. EventWorld uses events recorded before the observation cutoff.
 
-![Urban street sequence showing synchronized target-time RGB and forecast depth at 200 ms.](media/urban-forecast.gif)
+![Bridge bend sequence showing synchronized RGB and forecast depth at 200 ms.](media/bridge-forecast.gif)
 
 <details>
-<summary>Bridge bend sequence</summary>
+<summary>Urban street sequence</summary>
 
-![Bridge sequence showing synchronized target-time RGB and forecast depth at 200 ms.](media/bridge-forecast.gif)
+![Urban street sequence showing synchronized RGB and forecast depth at 200 ms.](media/urban-forecast.gif)
 
 </details>
 
 ## Method
 
-Camera events capture brightness changes. Moving edges reveal scene structure and motion, including in recordings where RGB frames are dark or blurred. EventWorld learns to combine these signals and query the future at a supplied horizon.
+Moving edges generate brightness changes that carry information about both geometry and motion. EventWorld combines the two signals to forecast a scene’s future state.
 
 ![EventWorld architecture showing the two event encoders, geometry-guided fusion, horizon-conditioned predictor, and geometry outputs.](media/method.webp)
 
-1. **Encode the event history.** Frozen EventVGGT and TESPEC encoders extract geometric states and temporal features from three 50 ms event packets.
-2. **Fuse and forecast.** Geometry guides the weighting of temporal features at each patch. The predictor takes the fused history and the requested horizon and predicts that future state in a single forward pass.
-3. **Decode the geometry.** A shared frozen decoder reads the forecast state alongside the original historical states. The training target comes from encoding events at the target time, so training the forecaster requires no depth or pose annotations.
+1. **Encode.** Frozen EventVGGT and TESPEC encoders extract geometry and motion features from three 50 ms event packets.
+2. **Fuse and forecast.** Geometry guides the weighting of motion features at each patch. The fused history and the requested horizon condition a direct forecast.
+3. **Decode.** A shared frozen decoder reads the forecast state alongside the original history to recover depth, point clouds, and camera poses.
+
+Targets come from encoding events at the forecast time. This supervision lets the forecaster train without depth or pose annotations.
 
 ## Results
 
 ### Depth on held-out EventScape Town05
 
-EventWorld has the lowest **AbsRel** at all four reported horizons. Relative to DriveLaW, the strongest RGB baseline by mean AbsRel, it lowers mean AbsRel by **19.1%** and reaches a comparable mean δ₁ (**90.13%** versus **90.17%**).
+EventWorld achieves the lowest AbsRel at all four reported horizons. The margin over DriveLaW (RGB) widens from **0.0007** at 200 ms to **0.0376** at 800 ms. Mean δ₁ is **90.13%** for EventWorld and **90.17%** for DriveLaW.
 
 | Method | Input | 200 ms | 400 ms | 600 ms | 800 ms | Mean AbsRel ↓ | Mean δ₁ ↑ |
 | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -44,7 +54,7 @@ EventWorld has the lowest **AbsRel** at all four reported horizons. Relative to 
 | VGGT-World | RGB | 0.0917 | 0.1131 | 0.1862 | 0.1645 | 0.1389 | 87.09% |
 | Copy-last | Events | 0.1202 | 0.1616 | 0.1903 | 0.2122 | 0.1711 | 78.30% |
 
-The four horizon columns report AbsRel. The evaluation uses 238 windows from the Town05 test archive and scores non-sky reference depths within 30 m after per-prediction median scale alignment. [Complete EventScape depth table (CSV)](results/eventscape-depth.csv)
+The four horizon columns report AbsRel. Evaluation uses **238 Town05 test windows** and non-sky reference depths within 30 m after per-prediction median scale alignment. [Full results (CSV)](results/eventscape-depth.csv)
 
 ![EventScape depth forecasts, ground truth, and signed depth errors in two scenes at 200 and 800 ms.](media/eventscape-depth.webp)
 
@@ -83,14 +93,12 @@ EventWorld transfers from EventScape without fine-tuning on these recordings. Th
 
 ![Examples of DSEC low-light driving and PEOD high-speed motion with signed relative depth errors at a 400 ms forecast horizon.](media/transfer-qualitative.webp)
 
-### Efficiency and scope
+### Scope
 
-On an NVIDIA A100, inference takes about **0.28 s per query** across the measured 200–800 ms horizons. The encoded history can be shared across queries. EventWorld returns a single prediction at each requested horizon. When both the camera and the scene are still, sparse events limit what it can observe.
+EventWorld returns a single prediction per horizon and can reuse the encoded history across queries. When both the camera and the scene are still, sparse events limit what it can observe.
 
 ## Project film
 
-The film covers the method, both driving sequences, and the forecasting experiments.
-
-![EventWorld project film poster.](media/film-poster.webp)
+<img src="media/film-poster.webp" width="640" alt="EventWorld project film poster">
 
 [Full film (.mp4)](media/eventworld-film.mp4) · [English captions (.vtt)](media/film.en.vtt) · [Interactive comparison](http://40.81.25.249/#driving)

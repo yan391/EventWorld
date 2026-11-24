@@ -1,31 +1,43 @@
-# EventWorld
+<h1 align="center">EventWorld</h1>
+<p align="center"><strong>仅用相机事件预测未来场景几何</strong></p>
+<p align="center">
+  <a href="#驾驶演示">驾驶演示</a> &nbsp;·&nbsp;
+  <a href="#方法">方法</a> &nbsp;·&nbsp;
+  <a href="#实验结果">实验结果</a> &nbsp;·&nbsp;
+  <a href="#项目视频">项目短片</a> &nbsp;·&nbsp;
+  <a href="README.md">English</a>
+</p>
 
-**仅用相机事件预测未来场景几何**
+![左侧是目标时刻的 RGB 参考画面，右侧是提前 200 毫秒给出的深度预测。下方时间线标出三个历史事件包、观测截止和预测时刻。](media/forecast-preview.jpg)
 
-EventWorld 读取过去 150 毫秒的相机事件，预测指定未来时刻的深度、点云和相机位姿。
+EventWorld 读取过去 **150 毫秒**的相机事件，用一次前向传播预测指定时刻的**深度、点云和相机位姿**。
 
-**[驾驶演示](#驾驶演示)** · **[实验结果](#实验结果)** · **[英文介绍与完整结果](README.md)**
-
-![左侧为目标时刻的 RGB 参考画面，右侧为 EventWorld 提前 200 毫秒给出的深度预测。](media/forecast-preview.jpg)
+| EventScape Town05 | DSEC 低照驾驶 | NVIDIA A100 推理 |
+| :--- | :--- | :--- |
+| 平均 AbsRel 比 DriveLaW（RGB）低 **19.1%** | 在一条低照录制上，平均 AbsRel 比 VGGT-World（RGB）低 **50.4%** | 200–800 毫秒时距的单次查询约 **0.28 秒** |
 
 ## 驾驶演示
 
 左侧是目标时刻的 RGB 参考画面，右侧是提前 **200 毫秒**做出的深度预测。EventWorld 的输入只有观测截止前的事件。
 
-![城市街道的 RGB 参考画面和 EventWorld 深度预测。](media/urban-forecast.gif)
+![桥上弯道的 RGB 参考画面和 EventWorld 深度预测。](media/bridge-forecast.gif)
 
 <details>
-<summary>桥上弯道序列</summary>
+<summary>城市街道序列</summary>
 
-![桥上弯道的 RGB 参考画面和 EventWorld 深度预测。](media/bridge-forecast.gif)
+![城市街道的 RGB 参考画面和 EventWorld 深度预测。](media/urban-forecast.gif)
 
 </details>
 
 ## 方法
 
-EventVGGT 和 TESPEC 分别从三个 50 毫秒的事件包中提取几何状态和时序特征。模型用场景结构指导每个图像块融合哪些时序特征，再根据所选时距，用一次前向传播预测未来几何状态。共享解码器根据预测状态和历史状态恢复深度、点云和相机位姿。训练预测模块时，模型从未来事件构造监督目标，无需深度或位姿标注。
-
 ![EventWorld 方法架构。](media/method.webp)
+
+1. **编码历史。** EventVGGT 和 TESPEC 分别从三个 50 毫秒事件包中提取场景结构和运动特征。
+2. **融合与预测。** 每个图像块的几何状态用于给运动特征分配权重。预测器根据融合后的历史状态和指定时距，直接预测未来状态。
+3. **解码几何。** 共享解码器结合历史状态和预测状态，恢复未来深度、点云和相机位姿。
+
+训练时，模型用目标时刻的事件构造监督信号，预测模块无需深度或位姿标注。
 
 ## 实验结果
 
@@ -50,6 +62,6 @@ EventVGGT 和 TESPEC 分别从三个 50 毫秒的事件包中提取几何状态�
 
 ## 项目视频
 
-![EventWorld 项目短片封面。](media/film-poster.webp)
+<img src="media/film-poster.webp" width="640" alt="EventWorld 项目短片封面">
 
 [完整短片（MP4）](media/eventworld-film.mp4) · [英文字幕（VTT）](media/film.en.vtt) · [可逐帧拖动的交互对照](http://40.81.25.249/#driving)
