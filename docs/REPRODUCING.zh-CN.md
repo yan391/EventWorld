@@ -8,7 +8,7 @@
 
 ## 安装
 
-参考环境为 Linux、Python 3.10、PyTorch 2.3.1、CUDA 11.8 和支持 BF16 的 NVIDIA GPU。在 A100 40 GB 上使用同样的配置可对照发布结果。
+参考环境为 Linux、Python 3.10、PyTorch 2.3.1 和 CUDA 11.8。推理使用具备原生 BF16 支持的 NVIDIA Ampere 或更新架构的 GPU。A100 40 GB 是归档结果使用的显卡。
 
 ```bash
 git clone https://github.com/yan391/EventWorld.git

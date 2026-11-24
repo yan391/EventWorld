@@ -8,7 +8,7 @@ The archive and weights have been checked against the reference assets. The CPU 
 
 ## 1. Set up the environment
 
-Use Linux with Python 3.10 and an NVIDIA CUDA GPU that supports BF16. The reference environment uses an A100 40 GB, PyTorch 2.3.1, and CUDA 11.8. Use a writable output directory with enough space for forecasts. Driver compatibility depends on the PyTorch wheel and the GPU.
+Use Linux with Python 3.10 and an NVIDIA Ampere or later CUDA GPU with native BF16 support. The reference environment uses an A100 40 GB, PyTorch 2.3.1, and CUDA 11.8. Use a writable output directory with enough space for forecasts. Driver compatibility depends on the PyTorch wheel and the GPU.
 
 ```bash
 git clone https://github.com/yan391/EventWorld.git

@@ -68,8 +68,9 @@ def _load_camera_head(checkpoint: Path):
 
 class EventWorld:
     def __init__(self, weights: Path, eventvggt_checkpoint: Path, camera_checkpoint: Path | None = None):
-        if not torch.cuda.is_available() or not torch.cuda.is_bf16_supported():
-            raise RuntimeError("EventWorld requires an NVIDIA CUDA GPU with bfloat16 support")
+        if (not torch.cuda.is_available() or torch.cuda.get_device_capability()[0] < 8
+                or not torch.cuda.is_bf16_supported()):
+            raise RuntimeError("EventWorld requires an NVIDIA CUDA GPU with native bfloat16 support")
         _require_identity(weights, P40530_SHA256)
         torch.backends.cuda.matmul.allow_tf32 = False
         torch.backends.cudnn.allow_tf32 = False
