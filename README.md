@@ -3,7 +3,7 @@
 <p align="center">
   <strong>Junhao Yan<sup>1</sup>, Dachun Kai<sup>2*</sup>, Xiaoyan Sun<sup>3</sup></strong><br>
   <sup>1</sup> Wuhan University of Technology, Wuhan, China<br>
-  <sup>2</sup> NTU, Singapore, Singapore<br>
+  <sup>2</sup> Nanyang Technological University, Singapore, Singapore<br>
   <sup>3</sup> University of Science and Technology of China, Hefei, China<br>
   <sup>*</sup> Corresponding author
 </p>
