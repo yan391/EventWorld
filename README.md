@@ -7,6 +7,7 @@
   <sup>3</sup> University of Science and Technology of China, Hefei, China<br>
   <sup>*</sup> Corresponding author
 </p>
+<p align="center">Project contact · Junhao Yan · <a href="mailto:yanjunhao@whut.edu.cn">yanjunhao@whut.edu.cn</a></p>
 <p align="center">
   <a href="https://yan391.github.io/EventWorld/">Project website</a> &nbsp;·&nbsp;
   <a href="#driving-previews">Driving demos</a> &nbsp;·&nbsp;

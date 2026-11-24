@@ -7,6 +7,7 @@
   <sup>3</sup> 中国科学技术大学（Hefei, China）<br>
   <sup>*</sup> 通讯作者
 </p>
+<p align="center">项目联系 · Junhao Yan · <a href="mailto:yanjunhao@whut.edu.cn">yanjunhao@whut.edu.cn</a></p>
 <p align="center">
   <a href="https://yan391.github.io/EventWorld/">项目网站</a> &nbsp;·&nbsp;
   <a href="#驾驶演示">驾驶演示</a> &nbsp;·&nbsp;
