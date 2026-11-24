@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta name="robots" content="noindex, noarchive">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f9f8">
+  <meta name="description" content="See how EventWorld forecasts depth, point clouds, and camera poses from past camera events. Explore synchronized driving forecasts and benchmark results.">
+  <meta name="citation_author" content="Junhao Yan">
+  <meta name="citation_author" content="Dachun Kai">
+  <meta name="citation_author" content="Xiaoyan Sun">
+  <meta property="og:title" content="EventWorld · Forecasting Future Geometry from Events Alone">
+  <meta property="og:description" content="Explore synchronized driving forecasts, the geometry-guided model, and zero-shot transfer to real recordings.">
+  <title>EventWorld · Forecasting Future Geometry from Events Alone</title>
+  <link rel="icon" href="assets/mark.png" type="image/png">
+  <link rel="stylesheet" href="style.css?v=authors">
+  <script defer src="assets/curves.js"></script>
+  <script defer src="site.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="#top" aria-label="EventWorld home"><span class="mark" aria-hidden="true"><i></i><i></i><i></i></span>EventWorld</a>
+      <nav aria-label="Main navigation">
+        <a href="#driving">Demo</a>
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+        <a href="#film">Film</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="paper-title">
+      <div class="shell">
+        <div class="hero-intro">
+          <div>
+            <h1 id="paper-title">
+              <span class="title-lead">EventWorld</span>
+              <span class="title-detail">Forecasting Future Geometry <span>from Events Alone</span></span>
+            </h1>
+            <div class="paper-authors" role="group" aria-label="Authors and affiliations">
+              <div>
+                <p class="author-names">Junhao Yan</p>
+                <p class="author-affiliation">Wuhan University of Technology</p>
+              </div>
+              <div>
+                <p class="author-names">Dachun Kai, Xiaoyan Sun</p>
+                <p class="author-affiliation">University of Science and Technology of China</p>
+              </div>
+            </div>
+          </div>
+          <div class="hero-summary">
+            <p>Give EventWorld a short stream of camera events and a future time. It predicts the scene’s depth, point cloud, and camera pose in one forward pass.</p>
+            <div class="hero-actions">
+              <a class="action primary" href="#driving">Try the driving demo</a>
+              <a class="action quiet" href="#film"><span class="film-icon" aria-hidden="true"></span>Watch the film</a>
+            </div>
+          </div>
+        </div>
+
+        <section class="viewer" id="driving" aria-label="Interactive driving forecast">
+          <div class="viewer-top">
+            <div class="scene-controls">
+              <button class="play" id="play" type="button" aria-label="Play driving sequence"><span aria-hidden="true"></span></button>
+              <div class="segmented" aria-label="Driving scene" role="group">
+                <button type="button" data-scene="urban" aria-pressed="true">Urban street</button>
+                <button type="button" data-scene="bridge" aria-pressed="false">Bridge bend</button>
+              </div>
+            </div>
+            <span class="horizon">Forecast horizon <strong>+200 ms</strong></span>
+          </div>
+          <div class="viewport" id="viewport">
+            <img id="rgb-poster" src="assets/urban-rgb.webp" alt="" width="1008" height="504" fetchpriority="high">
+            <img id="depth-poster" src="assets/urban-forecast.webp" alt="" width="1008" height="504" fetchpriority="high">
+            <canvas id="scene" width="1008" height="504" role="img" aria-label="Synchronized comparison of target-time RGB and forecast depth"></canvas>
+            <div class="viewport-label rgb-label">Target-time RGB</div>
+            <div class="viewport-label depth-label" id="depth-label">EventWorld depth</div>
+            <div class="split-rule" aria-hidden="true"><span class="split-handle"></span></div>
+            <input id="split" class="split-input" type="range" min="5" max="95" value="48" aria-label="Slide to compare target-time RGB and depth">
+          </div>
+          <div class="viewer-controls">
+            <div class="transport">
+              <output id="time" for="seek" aria-live="off">0.0 / 9.6 s</output>
+              <input id="seek" type="range" min="0" max="239" step="1" value="0" aria-label="Playback position">
+            </div>
+            <div class="view-options">
+              <label for="depth-mode">Depth view</label>
+              <select id="depth-mode">
+                <option value="forecast">EventWorld</option>
+                <option value="baseline">VGGT-World (RGB)</option>
+                <option value="truth">Ground truth</option>
+              </select>
+            </div>
+          </div>
+          <video id="scene-source" muted playsinline preload="none" hidden></video>
+          <div class="viewer-context">
+            <div class="forecast-timeline" aria-label="Three 50 millisecond event packets end at the observation cutoff. This demo shows a forecast 200 milliseconds beyond the cutoff.">
+              <span class="timeline-input">150 ms of past events</span>
+              <span class="timeline-cutoff">Cutoff</span>
+              <span class="timeline-target">+200 ms forecast</span>
+            </div>
+            <p class="viewer-note" id="viewer-note" aria-live="polite">Drag to compare views at the same target time. The RGB frame is shown as a visual reference.</p>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="section shell abstract" id="abstract" aria-labelledby="abstract-title">
+      <div>
+        <h2 id="abstract-title">Forecasting with events</h2>
+        <dl class="numbers">
+          <div><dt>19.1<span>%</span></dt><dd>lower mean depth AbsRel than DriveLaW (RGB) on the EventScape Town05 evaluation subset, 200–800 ms</dd></div>
+          <div><dt>50.4<span>%</span></dt><dd>lower mean depth AbsRel than VGGT-World (RGB) on one DSEC low-light recording, 100–800 ms</dd></div>
+        </dl>
+      </div>
+      <div class="abstract-text">
+        <p>Event cameras report changes in brightness with microsecond timestamps. Those changes trace moving edges and reveal both the scene’s structure and its motion, including in recordings where RGB frames are dark or blurred.</p>
+        <p>EventWorld uses scene structure to decide which motion features to retain, then predicts a geometric state at the requested horizon. During training, a frozen encoder turns future events into targets for that state, so the forecasting stage needs no depth or pose annotations.</p>
+      </div>
+    </section>
+
+    <section class="section method" id="method" aria-labelledby="method-title">
+      <div class="shell">
+        <div class="section-heading">
+          <h2 id="method-title">From events to geometry</h2>
+          <p>Choose a forecast horizon. EventWorld predicts the geometric state directly in one forward pass.</p>
+        </div>
+        <figure class="method-figure">
+          <a href="assets/method.webp" target="_blank" rel="noopener" aria-label="Open the full-resolution EventWorld method diagram">
+            <img src="assets/method.webp" width="1992" height="776" loading="lazy" alt="EventWorld architecture with two event encoders, geometry-guided fusion, a horizon-conditioned predictor, and a decoder for depth, point clouds, and camera poses.">
+          </a>
+        </figure>
+        <div class="steps">
+          <div><h3>Encode the history</h3><p>Three 50 ms packets feed two frozen encoders. EventVGGT captures structure and TESPEC captures motion.</p></div>
+          <div><h3>Query the future</h3><p>Geometric features guide fusion at each patch. A horizon embedding lets the predictor produce the requested state directly.</p></div>
+          <div><h3>Decode geometry</h3><p>A shared frozen decoder reads the predicted state alongside the original history to forecast depth, point clouds, and camera poses.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="results" aria-labelledby="results-title">
+      <div class="section-heading">
+        <h2 id="results-title">What EventWorld forecasts</h2>
+        <p>Depth and point clouds on EventScape Town05, and camera poses on M3ED without fine-tuning.</p>
+      </div>
+      <div class="result-options segmented" role="group" aria-label="Geometry result">
+        <button type="button" data-result="depth" aria-pressed="true">Depth</button>
+        <button type="button" data-result="cloud" aria-pressed="false">Point clouds</button>
+        <button type="button" data-result="pose" aria-pressed="false">Camera poses</button>
+      </div>
+      <figure class="result-figure" id="result-figure">
+        <a id="result-link" href="assets/eventscape-depth.webp" target="_blank" rel="noopener" aria-label="Open the full-resolution result">
+          <img id="result-image" src="assets/eventscape-depth.webp" width="1992" height="780" loading="lazy" alt="Two EventScape examples with target-time inputs, depth and signed relative errors at 200 and 800 milliseconds.">
+        </a>
+        <figcaption id="result-caption" aria-live="polite">EventScape, 200 and 800 ms. Blue marks underestimation and red marks overestimation after scale alignment.</figcaption>
+      </figure>
+      <div class="benchmark" aria-labelledby="benchmark-title">
+        <div class="benchmark-intro">
+          <h3 id="benchmark-title">Depth accuracy by horizon</h3>
+          <p>Evaluation on an EventScape Town05 subset. We align each prediction by median scale and score non-sky reference depths within 30 m.</p>
+        </div>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="EventScape depth benchmark table">
+          <table class="benchmark-table">
+            <caption>EventScape depth forecasting · AbsRel ↓ / δ₁ ↑</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">200 ms</th><th scope="col">400 ms</th><th scope="col">600 ms</th><th scope="col">800 ms</th><th scope="col">Mean</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">EventWorld</th><td>0.0789 / 93.49%</td><td>0.0854 / 91.74%</td><td>0.1003 / 89.20%</td><td>0.1139 / 86.09%</td><td><strong>0.0946</strong> / 90.13%</td></tr>
+              <tr><th scope="row">DriveLaW (RGB)</th><td>0.0796 / 94.41%</td><td>0.1090 / 91.76%</td><td>0.1280 / 89.14%</td><td>0.1515 / 85.36%</td><td>0.1170 / 90.17%</td></tr>
+              <tr><th scope="row">VGGT-World (RGB)</th><td>0.0917 / 93.81%</td><td>0.1131 / 91.87%</td><td>0.1862 / 79.52%</td><td>0.1645 / 83.14%</td><td>0.1389 / 87.09%</td></tr>
+              <tr><th scope="row">Copy-last (events)</th><td>0.1202 / 88.90%</td><td>0.1616 / 80.98%</td><td>0.1903 / 72.26%</td><td>0.2122 / 71.04%</td><td>0.1711 / 78.30%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="benchmark-link"><a href="https://github.com/yan391/EventWorld#results">See the numerical results on GitHub</a></p>
+      </div>
+    </section>
+
+    <section class="section transfer" id="transfer" aria-labelledby="transfer-title">
+      <div class="shell">
+        <div class="section-heading">
+          <h2 id="transfer-title">Low light. Fast motion.</h2>
+          <p>EventWorld transfers from EventScape to DSEC and PEOD without fine-tuning. Compare depth error across eight forecast horizons.</p>
+        </div>
+        <div class="transfer-grid">
+          <figure class="transfer-image">
+            <a href="assets/transfer-qualitative.webp" target="_blank" rel="noopener" aria-label="Open the full-resolution low-light and high-speed comparison">
+              <img src="assets/transfer-qualitative.webp" width="1434" height="594" loading="lazy" alt="DSEC low light and PEOD fast motion at 400 milliseconds, with RGB and events next to the signed depth errors of VGGT-World RGB and EventWorld.">
+            </a>
+            <figcaption>Signed relative depth error at +400 ms.</figcaption>
+          </figure>
+          <div class="plot-card">
+            <div class="segmented" role="group" aria-label="Transfer dataset">
+              <button type="button" data-dataset="DSEC" aria-pressed="true">DSEC</button>
+              <button type="button" data-dataset="PEOD" aria-pressed="false">PEOD</button>
+            </div>
+            <ul class="legend" aria-label="Chart legend">
+              <li><span class="series ours"></span>EventWorld</li>
+              <li><span class="series rgb"></span>VGGT-World (RGB)</li>
+              <li><span class="series events"></span>VGGT-World (Event)</li>
+            </ul>
+            <canvas id="plot" role="img" aria-label="AbsRel by forecast horizon on DSEC. The data table below provides exact plotted values."></canvas>
+            <p class="plot-note" id="plot-note">DSEC low-light recording, 83 windows. The depth reference comes from calibrated disparity, with valid points within 30 m and visible to both cameras.</p>
+            <details>
+              <summary>View numerical data</summary>
+              <div class="table-scroll"><table id="data-table">
+                <caption class="sr-only">AbsRel by forecast horizon</caption>
+                <thead><tr><th scope="col">Horizon</th><th scope="col">EventWorld</th><th scope="col">VGGT-World (RGB)</th><th scope="col">VGGT-World (Event)</th></tr></thead>
+                <tbody></tbody>
+              </table></div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell film-section" id="film" aria-labelledby="film-title">
+      <div class="section-heading film-heading"><div><h2 id="film-title">Project film</h2><p>The method, both driving sequences, and the geometry forecasting experiments.</p></div><a class="action quiet" href="https://github.com/yan391/EventWorld">View on GitHub</a></div>
+      <video class="film" controls playsinline preload="none" poster="assets/film-poster.webp" width="1280" height="720">
+        <source src="assets/eventworld-film.mp4" type="video/mp4">
+        <track kind="captions" srclang="en" label="English" src="assets/film.en.vtt">
+        <a href="assets/eventworld-film.mp4">Download the project film</a>
+      </video>
+      <p class="scope-note"><strong>Scope.</strong> The demo shows precomputed forecasts. EventWorld returns a single prediction per queried horizon. When the camera and scene are both still, sparse events limit what it can observe.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner"><span class="brand">EventWorld</span><a href="https://github.com/yan391/EventWorld">GitHub</a><a href="#top">Back to top</a></div>
+  </footer>
+</body>
+</html>
