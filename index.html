@@ -13,7 +13,7 @@
   <meta property="og:description" content="Explore synchronized driving forecasts, the geometry-guided model, and zero-shot transfer to real recordings.">
   <title>EventWorld · Forecasting Future Geometry from Events Alone</title>
   <link rel="icon" href="assets/mark.png" type="image/png">
-  <link rel="stylesheet" href="style.css?v=forecast-timing">
+  <link rel="stylesheet" href="style.css?v=driving-first">
   <script defer src="assets/curves.js"></script>
   <script defer src="site.js?v=driving-autoplay"></script>
 </head>
@@ -71,8 +71,11 @@
         </div>
 
         <section class="viewer" id="driving" aria-label="Interactive driving forecast">
-          <div class="viewer-top">
+          <div class="viewer-heading">
             <h2>Driving forecast</h2>
+            <p>Slide across a frame to compare the RGB reference with the depth forecast from past events.</p>
+          </div>
+          <div class="viewer-top">
             <div class="scene-controls">
               <button class="play" id="play" type="button" aria-label="Play driving sequence"><span aria-hidden="true"></span></button>
               <div class="segmented" aria-label="Driving scene" role="group">
@@ -80,17 +83,13 @@
                 <button type="button" data-scene="bridge" aria-pressed="false">Bridge bend</button>
               </div>
             </div>
-          </div>
-          <div class="forecast-timeline" role="group" aria-label="Observation and prediction times">
-            <span class="timeline-input"><strong>Event input</strong>3 × 50 ms packets</span>
-            <span class="timeline-cutoff">0 ms</span>
-            <span class="timeline-target"><strong>Depth forecast</strong>+200 ms</span>
+            <span class="horizon">Forecast horizon <strong>+200 ms</strong></span>
           </div>
           <div class="viewport" id="viewport">
             <img id="rgb-poster" src="assets/urban-rgb.webp" alt="" width="1008" height="504" fetchpriority="high">
             <img id="depth-poster" src="assets/urban-forecast.webp" alt="" width="1008" height="504" fetchpriority="high">
             <canvas id="scene" width="1008" height="504" role="img" aria-label="Synchronized comparison of target-time RGB and forecast depth"></canvas>
-            <div class="viewport-label rgb-label">RGB reference</div>
+            <div class="viewport-label rgb-label">Target-time RGB</div>
             <div class="viewport-label depth-label" id="depth-label">EventWorld depth</div>
             <div class="split-rule" aria-hidden="true"><span class="split-handle"></span></div>
             <input id="split" class="split-input" type="range" min="5" max="95" value="48" aria-label="Slide to compare target-time RGB and depth">
@@ -111,6 +110,11 @@
           </div>
           <video id="scene-source" muted playsinline loop preload="none" hidden></video>
           <div class="viewer-context">
+            <div class="forecast-timeline" aria-label="Three 50 millisecond event packets end at the observation cutoff. This demo shows a forecast 200 milliseconds beyond the cutoff.">
+              <span class="timeline-input">150 ms of past events</span>
+              <span class="timeline-cutoff">Cutoff</span>
+              <span class="timeline-target">+200 ms forecast</span>
+            </div>
             <p class="viewer-note" id="viewer-note" aria-live="polite">Drag to compare views at the same target time. The RGB frame is shown as a visual reference.</p>
           </div>
         </section>
