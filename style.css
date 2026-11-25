@@ -51,22 +51,23 @@ nav a:hover, .site-footer a:hover { color: var(--accent); text-decoration: under
 
 .hero {
   padding: 0 0 clamp(2.6rem, 4.8vw, 4.3rem);
-  background: radial-gradient(ellipse at 10% 0%, #e3eaff, transparent 55%),
-              radial-gradient(ellipse at 90% 7%, #d9f6ef, transparent 45%),
-              linear-gradient(#f3f6ff, #fff 78%);
+  background: linear-gradient(#fff 28%, #edf4f2);
   border-bottom: 1px solid var(--line);
 }
 .hero-intro {
-  margin: 0 auto clamp(1.6rem, 3vw, 2.6rem);
+  margin: 0 auto clamp(1rem, 2vw, 1.6rem);
   text-align: center;
 }
 .masthead {
-  padding: clamp(2.1rem, 4vw, 4.3rem) 0 0;
-  color: var(--navy);
+  padding: clamp(1.4rem, 2.7vw, 2.65rem) .8rem;
+  background: linear-gradient(90deg, #161a2130, #161a21ea 45%, #161a21ea 55%, #161a2130),
+              #161a21 url("assets/film-poster.webp") center 59% / max(100%, 52rem) 270% no-repeat;
+  color: #f6faff;
+  border-radius: 0 0 1rem 1rem;
 }
 .title-lead, .title-detail { display: block; }
-.title-lead { font: 700 clamp(3.6rem, 6.7vw, 6rem)/.98 var(--sans); letter-spacing: -.075em; color: #293d86; }
-.title-detail { font: 640 clamp(1.7rem, 3.6vw, 3.3rem)/1.10 var(--sans); letter-spacing: -.047em; margin: .65rem auto 0; max-width: 25ch; text-wrap: balance; }
+.title-lead { font: 400 clamp(3.4rem, 6.5vw, 5.7rem)/.98 var(--serif); letter-spacing: -.066em; }
+.title-detail { font: 500 clamp(1.2rem, 2.15vw, 1.9rem)/1.2 var(--sans); letter-spacing: -.025em; margin-top: .55rem; color: #dfedf2; text-wrap: balance; }
 .title-detail span { white-space: nowrap; }
 .paper-authors {
   display: grid;
@@ -257,9 +258,9 @@ td:first-child, th:first-child { text-align: left; white-space: nowrap; }
 .footer-inner p, .footer-inner a { font-size: .94rem; }
 .site-footer a:hover { color: #fff; }
 
-.horizons { padding: clamp(1rem, 2.2vw, 1.8rem); background: white; border: 1px solid #ccd8e8; border-radius: 1.35rem; box-shadow: 0 18px 60px -34px #4258826b; }
+.horizons { margin-top: 2rem; padding: clamp(1rem, 2.2vw, 1.8rem); background: white; border: 1px solid var(--line); border-radius: .85rem; }
 .gallery-head, .gallery-footer { display: flex; align-items: center; justify-content: space-between; gap: .8rem 2rem; flex-wrap: wrap; }
-.gallery-head h2, .study h2 { font: 650 clamp(1.5rem, 2.7vw, 2.65rem)/1.1 var(--sans); letter-spacing: -.045em; }
+.gallery-head h3, .study h2 { font: 650 clamp(1.5rem, 2.7vw, 2.65rem)/1.1 var(--sans); letter-spacing: -.045em; }
 .gallery-head p, .gallery-footer p { color: var(--muted); }
 .gallery-head p { margin-top: .4rem; }
 .gallery-scene { display: grid; gap: .2rem; color: var(--muted); font-weight: 650; font-size: .8rem; }
@@ -292,7 +293,6 @@ td:first-child, th:first-child { text-align: left; white-space: nowrap; }
 .study-comparison :is(td,th) { border-color: #546582; padding: .65rem .4rem; }
 .study-comparison tbody tr:last-child { color: #b1f5df; }
 .study-comparison p { font-size: .88rem; }
-.demo-section { padding-top: clamp(2.4rem, 5vw, 4rem); }
 
 @media (min-width: 901px) {
   html { scroll-padding-top: 5rem; }
@@ -317,7 +317,7 @@ td:first-child, th:first-child { text-align: left; white-space: nowrap; }
   .abstract, .steps, .benchmark-intro { grid-template-columns: 1fr; gap: 1.05rem; }
   .hero-intro { margin-bottom: 1.45rem; }
   .title-lead { font-size: clamp(3.25rem, 12.7vw, 4.95rem); }
-  .title-detail { margin-top: .65rem; font-size: clamp(1.46rem, 6.2vw, 2rem); }
+  .title-detail { margin-top: .5rem; font-size: clamp(1.1rem, 4.6vw, 1.5rem); }
   .title-detail span { display: block; }
   .masthead { margin-inline: -.9rem; border-radius: 0; }
   .header-inner { flex-wrap: wrap; padding-block: .6rem; }
