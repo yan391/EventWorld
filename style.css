@@ -96,9 +96,6 @@ nav a:hover, .site-footer a:hover { color: var(--accent); text-decoration: under
 .author-affiliation { margin-top: .15rem; color: var(--muted); font-size: .875rem; }
 .author-role { margin-top: .2rem; color: var(--accent); font-size: .875rem; font-weight: 650; }
 .code-icon { font: 600 .87rem var(--mono); color: var(--mint); }
-.download-links { display: flex; justify-content: center; gap: 1.2rem; margin-top: .85rem; }
-.download-links a { color: var(--accent); font-size: .9rem; text-decoration-color: #9cbfb8; text-underline-offset: .22em; }
-.download-links a:hover { text-decoration-color: currentColor; }
 .hero-actions, .hero-action-group { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; }
 .hero-actions { margin-top: clamp(1.15rem, 2.5vw, 1.85rem); }
 .action { display: inline-flex; align-items: center; justify-content: center; gap: .48rem; min-height: 2.9rem; padding: .57rem 1.05rem; border-radius: 2rem; border: 1px solid transparent; text-decoration: none; font-size: .91rem; font-weight: 650; transition: background .18s, color .18s, border-color .18s; }
