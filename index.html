@@ -13,9 +13,9 @@
   <meta property="og:description" content="Explore synchronized driving forecasts, the geometry-guided model, and zero-shot transfer to real recordings.">
   <title>EventWorld · Forecasting Future Geometry from Events Alone</title>
   <link rel="icon" href="assets/mark.png" type="image/png">
-  <link rel="stylesheet" href="style.css?v=event-masthead">
+  <link rel="stylesheet" href="style.css?v=horizon-gallery">
   <script defer src="assets/curves.js"></script>
-  <script defer src="site.js"></script>
+  <script defer src="site.js?v=horizon-gallery"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -23,8 +23,9 @@
     <div class="shell header-inner">
       <a class="brand" href="#top" aria-label="EventWorld home"><span class="mark" aria-hidden="true"><i></i><i></i><i></i></span>EventWorld</a>
       <nav aria-label="Main navigation">
-        <a href="#driving">Demo</a>
+        <a href="#horizons">Explore</a>
         <a href="#method">Method</a>
+        <a href="#datasets">Datasets</a>
         <a href="#results">Results</a>
         <a href="#film">Film</a>
       </nav>
@@ -69,53 +70,31 @@
           </div>
         </div>
 
-        <section class="viewer" id="driving" aria-label="Interactive driving forecast">
-          <div class="viewer-heading">
-            <h2>Driving forecast</h2>
-            <p>Slide across a frame to compare the RGB reference with the depth forecast from past events.</p>
-          </div>
-          <div class="viewer-top">
-            <div class="scene-controls">
-              <button class="play" id="play" type="button" aria-label="Play driving sequence"><span aria-hidden="true"></span></button>
-              <div class="segmented" aria-label="Driving scene" role="group">
-                <button type="button" data-scene="urban" aria-pressed="true">Urban street</button>
-                <button type="button" data-scene="bridge" aria-pressed="false">Bridge bend</button>
-              </div>
+        <section class="horizons" id="horizons" aria-labelledby="horizons-title">
+          <div class="gallery-head">
+            <div>
+              <h2 id="horizons-title">One street, four forecast horizons</h2>
+              <p>Each forecast starts from the same 150 ms of events. Choose how far ahead to look.</p>
             </div>
-            <span class="horizon">Forecast horizon <strong>+200 ms</strong></span>
+            <label class="gallery-scene">Street scene
+              <select id="gallery-scene"><option value="2">Brick storefronts</option><option value="1">Concrete towers</option></select>
+            </label>
           </div>
-          <div class="viewport" id="viewport">
-            <img id="rgb-poster" src="assets/urban-rgb.webp" alt="" width="1008" height="504" fetchpriority="high">
-            <img id="depth-poster" src="assets/urban-forecast.webp" alt="" width="1008" height="504" fetchpriority="high">
-            <canvas id="scene" width="1008" height="504" role="img" aria-label="Synchronized comparison of target-time RGB and forecast depth"></canvas>
-            <div class="viewport-label rgb-label">Target-time RGB</div>
-            <div class="viewport-label depth-label" id="depth-label">EventWorld depth</div>
-            <div class="split-rule" aria-hidden="true"><span class="split-handle"></span></div>
-            <input id="split" class="split-input" type="range" min="5" max="95" value="48" aria-label="Slide to compare target-time RGB and depth">
+          <div class="gallery-panels">
+            <figure><img id="gallery-rgb" src="assets/horizons/scene2-200-rgb.webp" width="504" height="252" alt="RGB reference at the target time"><figcaption>Target-time RGB</figcaption></figure>
+            <figure class="predicted"><img id="gallery-forecast" src="assets/horizons/scene2-200-forecast.webp" width="800" height="440" alt="EventWorld point-cloud forecast"><figcaption>EventWorld forecast</figcaption></figure>
+            <figure><img id="gallery-reference" src="assets/horizons/scene2-200-reference.webp" width="800" height="440" alt="Reference point cloud from target-time depth"><figcaption>Reference point cloud</figcaption></figure>
           </div>
-          <div class="viewer-controls">
-            <div class="transport">
-              <output id="time" for="seek" aria-live="off">0.0 / 9.6 s</output>
-              <input id="seek" type="range" min="0" max="239" step="1" value="0" aria-label="Playback position">
+          <div class="gallery-footer">
+            <div class="segmented horizon-options" role="group" aria-label="Forecast horizon">
+              <button type="button" data-horizon="200" aria-pressed="true">+200 ms</button>
+              <button type="button" data-horizon="400" aria-pressed="false">+400 ms</button>
+              <button type="button" data-horizon="600" aria-pressed="false">+600 ms</button>
+              <button type="button" data-horizon="800" aria-pressed="false">+800 ms</button>
             </div>
-            <div class="view-options">
-              <label for="depth-mode">Depth view</label>
-              <select id="depth-mode">
-                <option value="forecast">EventWorld</option>
-                <option value="baseline">VGGT-World (RGB)</option>
-                <option value="truth">Ground truth</option>
-              </select>
-            </div>
+            <p>EventScape · Supplementary Fig. S3. RGB and back-projected depth show the scene at the target time. Both point clouds use the same near-to-far color scale.</p>
           </div>
-          <video id="scene-source" muted playsinline preload="none" hidden></video>
-          <div class="viewer-context">
-            <div class="forecast-timeline" aria-label="Three 50 millisecond event packets end at the observation cutoff. This demo shows a forecast 200 milliseconds beyond the cutoff.">
-              <span class="timeline-input">150 ms of past events</span>
-              <span class="timeline-cutoff">Cutoff</span>
-              <span class="timeline-target">+200 ms forecast</span>
-            </div>
-            <p class="viewer-note" id="viewer-note" aria-live="polite">Drag to compare views at the same target time. The RGB frame is shown as a visual reference.</p>
-          </div>
+          <output id="gallery-status" class="sr-only" aria-live="polite"></output>
         </section>
       </div>
     </section>
@@ -151,7 +130,25 @@
           <li><h3>Query the future</h3><p>Geometric features guide fusion at each patch. A horizon embedding lets the predictor produce the requested state directly.</p></li>
           <li><h3>Decode geometry</h3><p>A shared frozen decoder reads the predicted state alongside the original history to forecast depth, point clouds, and camera poses.</p></li>
         </ol>
+        <details class="training-detail">
+          <summary>How do future events supervise training?</summary>
+          <p>A frozen geometry encoder reads the history together with a future event packet to produce a target for the chosen horizon. The predictor learns to recover that target from the past events and noise. At inference, it receives past events, a noise sample, and the requested horizon.</p>
+          <p>Training first updates the predictor and fusion module together for 24,040 updates. A second stage refines the mixture in the fusion module for 54,040 updates. Validation selects the released checkpoint at update 40,530 of that second stage. Supplementary Sec. A.3 and Table S1.</p>
+        </details>
       </div>
+    </section>
+
+    <section class="section shell dataset-section" id="datasets" aria-labelledby="datasets-title">
+      <div class="section-heading">
+        <h2 id="datasets-title">Where we evaluate</h2>
+        <p>Training uses synthetic driving events. Three real datasets probe different aspects of transfer with the EventScape checkpoint frozen.</p>
+      </div>
+      <dl class="dataset-list">
+        <div><dt><a href="https://rpg.ifi.uzh.ch/RAMNet.html">EventScape</a></dt><dd><strong>Synthetic driving</strong>Simulator depth provides a reference for depth maps and back-projected 3D point clouds.</dd></div>
+        <div><dt><a href="https://dsec.ifi.uzh.ch/dsec-datasets/download/">DSEC</a></dt><dd><strong>Low light</strong>On Zurich 09_b, calibrated stereo disparity supplies the depth reference for 83 windows.</dd></div>
+        <div><dt><a href="https://echosliu.github.io/PEOD-dataset/">PEOD</a></dt><dd><strong>Fast motion</strong>On sequence 036, depth from target-time EventVGGT serves as a pseudo-reference across 73 windows.</dd></div>
+        <div><dt><a href="https://m3ed.io/sequences/">M3ED</a></dt><dd><strong>Camera motion</strong>Recorded poses provide the reference trajectory. The quantitative comparison uses the daytime Horse sequence.</dd></div>
+      </dl>
     </section>
 
     <section class="section shell" id="results" aria-labelledby="results-title">
@@ -193,6 +190,24 @@
       </div>
     </section>
 
+    <section class="study" aria-labelledby="study-title">
+      <div class="shell study-grid">
+        <div><h2 id="study-title">Why query the horizon directly?</h2>
+          <p>In the EventScape ablation, a rollout predicts 50 ms at a time and feeds its prediction into the next step. EventWorld instead queries each target time from the observed history.</p>
+          <p>Single-horizon depth inference takes approximately <strong>0.28 s</strong> at each of the four measured horizons on one 40 GB NVIDIA A100, from host input to depth returned to the CPU.</p>
+        </div>
+        <div class="study-comparison">
+          <table>
+            <caption>Depth error by forecasting strategy</caption>
+            <thead><tr><th scope="col">AbsRel ↓</th><th scope="col">200 ms</th><th scope="col">800 ms</th></tr></thead>
+            <tbody><tr><th scope="row">50 ms rollout</th><td>0.1012</td><td>0.2185</td></tr>
+            <tr><th scope="row">Direct query</th><td>0.0789</td><td>0.1139</td></tr></tbody>
+          </table>
+          <p>At 800 ms, direct queries reduce AbsRel by 47.9% relative to rollout. Main paper, Table 4 and Fig. 9.</p>
+        </div>
+      </div>
+    </section>
+
     <section class="section transfer" id="transfer" aria-labelledby="transfer-title">
       <div class="shell">
         <div class="section-heading">
@@ -230,6 +245,57 @@
         </div>
       </div>
     </section>
+
+    <div class="shell demo-section">
+      <section class="viewer" id="driving" aria-label="Interactive driving forecast">
+        <div class="viewer-heading">
+          <h2>Driving forecast</h2>
+          <p>Slide across a frame to compare the RGB reference with the depth forecast from past events.</p>
+        </div>
+        <div class="viewer-top">
+          <div class="scene-controls">
+            <button class="play" id="play" type="button" aria-label="Play driving sequence"><span aria-hidden="true"></span></button>
+            <div class="segmented" aria-label="Driving scene" role="group">
+              <button type="button" data-scene="urban" aria-pressed="true">Urban street</button>
+              <button type="button" data-scene="bridge" aria-pressed="false">Bridge bend</button>
+            </div>
+          </div>
+          <span class="horizon">Forecast horizon <strong>+200 ms</strong></span>
+        </div>
+        <div class="viewport" id="viewport">
+          <img id="rgb-poster" src="assets/urban-rgb.webp" alt="" width="1008" height="504" fetchpriority="high">
+          <img id="depth-poster" src="assets/urban-forecast.webp" alt="" width="1008" height="504" fetchpriority="high">
+          <canvas id="scene" width="1008" height="504" role="img" aria-label="Synchronized comparison of target-time RGB and forecast depth"></canvas>
+          <div class="viewport-label rgb-label">Target-time RGB</div>
+          <div class="viewport-label depth-label" id="depth-label">EventWorld depth</div>
+          <div class="split-rule" aria-hidden="true"><span class="split-handle"></span></div>
+          <input id="split" class="split-input" type="range" min="5" max="95" value="48" aria-label="Slide to compare target-time RGB and depth">
+        </div>
+        <div class="viewer-controls">
+          <div class="transport">
+            <output id="time" for="seek" aria-live="off">0.0 / 9.6 s</output>
+            <input id="seek" type="range" min="0" max="239" step="1" value="0" aria-label="Playback position">
+          </div>
+          <div class="view-options">
+            <label for="depth-mode">Depth view</label>
+            <select id="depth-mode">
+              <option value="forecast">EventWorld</option>
+              <option value="baseline">VGGT-World (RGB)</option>
+              <option value="truth">Ground truth</option>
+            </select>
+          </div>
+        </div>
+        <video id="scene-source" muted playsinline preload="none" hidden></video>
+        <div class="viewer-context">
+          <div class="forecast-timeline" aria-label="Three 50 millisecond event packets end at the observation cutoff. This demo shows a forecast 200 milliseconds beyond the cutoff.">
+            <span class="timeline-input">150 ms of past events</span>
+            <span class="timeline-cutoff">Cutoff</span>
+            <span class="timeline-target">+200 ms forecast</span>
+          </div>
+          <p class="viewer-note" id="viewer-note" aria-live="polite">Drag to compare views at the same target time. The RGB frame is shown as a visual reference.</p>
+        </div>
+      </section>
+    </div>
 
     <section class="section shell film-section" id="film" aria-labelledby="film-title">
       <div class="section-heading film-heading"><div><h2 id="film-title">Project film</h2><p>The method, both driving sequences, and the geometry forecasting experiments.</p></div><a class="action quiet" href="https://github.com/yan391/EventWorld">View on GitHub</a></div>

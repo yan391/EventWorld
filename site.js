@@ -179,6 +179,42 @@ const viewObserver = new IntersectionObserver(([entry]) => {
 });
 viewObserver.observe(viewport);
 
+const horizonButtons = [...document.querySelectorAll("[data-horizon]")];
+const galleryScene = byId("gallery-scene");
+const galleryStatus = byId("gallery-status");
+let selectedHorizon = "200";
+let galleryRevision = 0;
+
+async function showHorizon() {
+  const revision = ++galleryRevision;
+  const prefix = `assets/horizons/scene${galleryScene.value}-${selectedHorizon}-`;
+  const kinds = ["rgb", "forecast", "reference"];
+  try {
+    const images = await Promise.all(kinds.map(async kind => {
+      const image = new Image();
+      image.src = prefix + kind + ".webp";
+      await image.decode();
+      return image;
+    }));
+    if (revision !== galleryRevision) return;
+    kinds.forEach((kind, index) => { byId("gallery-" + kind).src = images[index].src; });
+    galleryStatus.textContent = `${galleryScene.selectedOptions[0].text}, +${selectedHorizon} ms.`;
+    galleryStatus.className = "sr-only";
+  } catch {
+    if (revision !== galleryRevision) return;
+    galleryStatus.className = "gallery-error";
+    galleryStatus.textContent = "Could not load this comparison. The previous frames are still shown. Select a horizon to retry.";
+  }
+}
+for (const button of horizonButtons) {
+  button.addEventListener("click", () => {
+    selectedHorizon = button.dataset.horizon;
+    press(horizonButtons, "horizon", selectedHorizon);
+    showHorizon();
+  });
+}
+galleryScene.addEventListener("change", showHorizon);
+
 const results = {
   depth: {
     asset: "eventscape-depth.webp", width: 1992, height: 780,
