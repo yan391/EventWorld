@@ -13,7 +13,7 @@
   <meta property="og:description" content="Explore synchronized driving forecasts, the geometry-guided model, and zero-shot transfer to real recordings.">
   <title>EventWorld · Forecasting Future Geometry from Events Alone</title>
   <link rel="icon" href="assets/mark.png" type="image/png">
-  <link rel="stylesheet" href="style.css?v=affiliations">
+  <link rel="stylesheet" href="style.css?v=project-header">
   <script defer src="assets/curves.js"></script>
   <script defer src="site.js"></script>
 </head>
@@ -35,35 +35,37 @@
     <section class="hero" id="top" aria-labelledby="paper-title">
       <div class="shell">
         <div class="hero-intro">
-          <div>
-            <h1 id="paper-title">
-              <span class="title-lead">EventWorld</span>
-              <span class="title-detail">Forecasting Future Geometry <span>from Events Alone</span></span>
-            </h1>
-            <div class="paper-authors" role="group" aria-label="Authors and affiliations">
-              <div>
-                <p class="author-names">Junhao Yan</p>
-                <p class="author-affiliation">Wuhan University of Technology, Wuhan, China</p>
-                <p class="author-affiliation"><a href="mailto:yanjunhao@whut.edu.cn">yanjunhao@whut.edu.cn</a></p>
-              </div>
-              <div>
-                <p class="author-names">Dachun Kai<sup>*</sup></p>
-                <p class="author-affiliation">Nanyang Technological University, Singapore, Singapore</p>
-                <p class="author-role">Corresponding author</p>
-              </div>
-              <div>
-                <p class="author-names">Xiaoyan Sun</p>
-                <p class="author-affiliation">University of Science and Technology of China, Hefei, China</p>
-              </div>
+          <h1 id="paper-title">
+            <span class="title-lead">EventWorld</span>
+            <span class="title-detail">Forecasting Future Geometry <span>from Events Alone</span></span>
+          </h1>
+          <div class="paper-authors" role="group" aria-label="Authors and affiliations">
+            <div>
+              <p class="author-names">Junhao Yan</p>
+              <p class="author-affiliation">Wuhan University of Technology, Wuhan, China</p>
+              <p class="author-affiliation"><a href="mailto:yanjunhao@whut.edu.cn">yanjunhao@whut.edu.cn</a></p>
+            </div>
+            <div>
+              <p class="author-names">Dachun Kai<sup>*</sup></p>
+              <p class="author-affiliation">Nanyang Technological University, Singapore, Singapore</p>
+              <p class="author-role">Corresponding author</p>
+            </div>
+            <div>
+              <p class="author-names">Xiaoyan Sun</p>
+              <p class="author-affiliation">University of Science and Technology of China, Hefei, China</p>
             </div>
           </div>
-          <div class="hero-summary">
-            <p>Give EventWorld a short stream of camera events and a future time. It predicts the scene’s depth, point cloud, and camera pose in one forward pass.</p>
-            <div class="hero-actions">
-              <a class="action primary" href="#driving">Try the driving demo</a>
+          <div class="hero-actions" role="group" aria-label="Project resources">
+            <div class="hero-action-group">
+              <a class="action primary" href="https://github.com/yan391/EventWorld">Code</a>
+              <span class="action pending">Paper <small>Coming soon</small></span>
+            </div>
+            <div class="hero-action-group">
+              <a class="action quiet" href="#driving">Driving demo</a>
               <a class="action quiet" href="#film"><span class="film-icon" aria-hidden="true"></span>Watch the film</a>
             </div>
           </div>
+          <p class="hero-summary">From a short stream of camera events, EventWorld forecasts the scene’s depth, point cloud, and camera pose at a chosen future time in one forward pass.</p>
         </div>
 
         <section class="viewer" id="driving" aria-label="Interactive driving forecast">
