@@ -81,7 +81,7 @@ nav a:hover, .site-footer a:hover { color: var(--accent); text-decoration: under
 }
 .paper-authors li { padding-inline: clamp(.9rem, 2.5vw, 1.9rem); }
 .paper-authors li + li { border-inline-start: 1px solid var(--line); }
-.author-name { font: 400 clamp(1.35rem, 1.8vw, 1.65rem)/1.15 var(--serif); letter-spacing: -.035em; }
+.author-name { font: 600 clamp(1.12rem, 1.5vw, 1.34rem)/1.25 var(--sans); letter-spacing: -.015em; }
 .author-name sup { margin-left: .12em; color: var(--accent); font: 600 .56em/0 var(--sans); }
 .author-affiliation { margin-top: .38rem; color: var(--ink); font-size: .88rem; text-wrap: pretty; }
 .author-affiliation span { display: block; color: var(--muted); }
@@ -340,7 +340,7 @@ td:first-child, th:first-child { text-align: left; white-space: nowrap; }
   .paper-authors { grid-template-columns: 1fr; max-width: 27rem; margin-top: .7rem; }
   .paper-authors li { display: grid; grid-template-columns: 6.7rem minmax(0, 1fr); gap: .2rem .65rem; align-items: baseline; padding: .55rem .15rem; }
   .paper-authors li + li { border-inline-start: 0; border-top: 1px solid var(--line); }
-  .author-name { font-size: 1.22rem; }
+  .author-name { font-size: 1.06rem; }
   .author-affiliation { margin: 0; }
   .author-role, .author-contact { grid-column: 2; margin: 0; justify-self: start; }
   .viewer { padding: .54rem; border-radius: .88rem; }
