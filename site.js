@@ -22,6 +22,7 @@ let scene = "urban";
 let sourceScene = null;
 let pendingFrame = null;
 let animation = null;
+let autoplayPending = true;
 const videoFrameCallbacks = typeof video.requestVideoFrameCallback === "function";
 
 function press(buttons, name, value) {
@@ -113,6 +114,7 @@ async function beginPlayback() {
 }
 
 play.addEventListener("click", () => {
+  autoplayPending = false;
   if (video.paused) beginPlayback();
   else video.pause();
 });
@@ -161,6 +163,7 @@ split.addEventListener("input", () => {
   if (viewport.classList.contains("is-playing")) renderFrame();
 });
 seek.addEventListener("input", () => {
+  autoplayPending = false;
   const frame = Number(seek.value);
   video.pause();
   updatePosition(frame);
@@ -173,9 +176,13 @@ mode.addEventListener("change", () => {
   if (viewport.classList.contains("is-playing")) renderFrame();
 });
 
-// Pause playback when the user navigates down to the paper.
 const viewObserver = new IntersectionObserver(([entry]) => {
-  if (!entry.isIntersecting) video.pause();
+  if (!entry.isIntersecting) {
+    video.pause();
+  } else if (autoplayPending) {
+    autoplayPending = false;
+    beginPlayback();
+  }
 });
 viewObserver.observe(viewport);
 
