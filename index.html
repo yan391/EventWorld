@@ -13,7 +13,7 @@
   <meta property="og:description" content="Explore synchronized driving forecasts, the geometry-guided model, and zero-shot transfer to real recordings.">
   <title>EventWorld · Forecasting Future Geometry from Events Alone</title>
   <link rel="icon" href="assets/mark.png" type="image/png">
-  <link rel="stylesheet" href="style.css?v=project-header">
+  <link rel="stylesheet" href="style.css?v=event-masthead">
   <script defer src="assets/curves.js"></script>
   <script defer src="site.js"></script>
 </head>
@@ -35,10 +35,12 @@
     <section class="hero" id="top" aria-labelledby="paper-title">
       <div class="shell">
         <div class="hero-intro">
-          <h1 id="paper-title">
-            <span class="title-lead">EventWorld</span>
-            <span class="title-detail">Forecasting Future Geometry <span>from Events Alone</span></span>
-          </h1>
+          <div class="masthead">
+            <h1 id="paper-title">
+              <span class="title-lead">EventWorld</span>
+              <span class="title-detail">Forecasting Future Geometry <span>from Events Alone</span></span>
+            </h1>
+          </div>
           <div class="paper-authors" role="group" aria-label="Authors and affiliations">
             <div>
               <p class="author-names">Junhao Yan</p>
@@ -57,7 +59,7 @@
           </div>
           <div class="hero-actions" role="group" aria-label="Project resources">
             <div class="hero-action-group">
-              <a class="action primary" href="https://github.com/yan391/EventWorld">Code</a>
+              <a class="action primary" href="https://github.com/yan391/EventWorld"><span class="code-icon" aria-hidden="true">&lt;/&gt;</span>Code</a>
               <span class="action pending">Paper <small>Coming soon</small></span>
             </div>
             <div class="hero-action-group">
@@ -65,10 +67,17 @@
               <a class="action quiet" href="#film"><span class="film-icon" aria-hidden="true"></span>Watch the film</a>
             </div>
           </div>
-          <p class="hero-summary">From a short stream of camera events, EventWorld forecasts the scene’s depth, point cloud, and camera pose at a chosen future time in one forward pass.</p>
+          <div class="download-links" aria-label="Downloads" role="group">
+            <a href="https://drive.google.com/file/d/1__Oy_SLwvmeaPiMeYueL2Ab7mz15f09L/view?usp=sharing">Model weights</a>
+            <a href="https://drive.google.com/file/d/159yCwVb9cn0hP5X1yp42RiW9bJhKVc7E/view?usp=sharing">EventScape test data</a>
+          </div>
         </div>
 
         <section class="viewer" id="driving" aria-label="Interactive driving forecast">
+          <div class="viewer-heading">
+            <h2>Driving forecast</h2>
+            <p>Slide across a frame to compare the RGB reference with the depth forecast from past events.</p>
+          </div>
           <div class="viewer-top">
             <div class="scene-controls">
               <button class="play" id="play" type="button" aria-label="Play driving sequence"><span aria-hidden="true"></span></button>
@@ -124,6 +133,7 @@
         </dl>
       </div>
       <div class="abstract-text">
+        <p>From 150 ms of camera events, EventWorld forecasts depth, a point cloud, and camera pose at a chosen future time in one forward pass.</p>
         <p>Event cameras report changes in brightness with microsecond timestamps. Those changes trace moving edges and reveal both the scene’s structure and its motion, including in recordings where RGB frames are dark or blurred.</p>
         <p>EventWorld uses scene structure to decide which motion features to retain, then predicts a geometric state at the requested horizon. During training, a frozen encoder turns future events into targets for that state, so the forecasting stage needs no depth or pose annotations.</p>
       </div>
@@ -140,23 +150,25 @@
             <img src="assets/method.webp" width="1992" height="776" loading="lazy" alt="EventWorld architecture with two event encoders, geometry-guided fusion, a horizon-conditioned predictor, and a decoder for depth, point clouds, and camera poses.">
           </a>
         </figure>
-        <div class="steps">
-          <div><h3>Encode the history</h3><p>Three 50 ms packets feed two frozen encoders. EventVGGT captures structure and TESPEC captures motion.</p></div>
-          <div><h3>Query the future</h3><p>Geometric features guide fusion at each patch. A horizon embedding lets the predictor produce the requested state directly.</p></div>
-          <div><h3>Decode geometry</h3><p>A shared frozen decoder reads the predicted state alongside the original history to forecast depth, point clouds, and camera poses.</p></div>
-        </div>
+        <ol class="steps">
+          <li><h3>Encode the history</h3><p>Three 50 ms packets feed two frozen encoders. EventVGGT captures structure and TESPEC captures motion.</p></li>
+          <li><h3>Query the future</h3><p>Geometric features guide fusion at each patch. A horizon embedding lets the predictor produce the requested state directly.</p></li>
+          <li><h3>Decode geometry</h3><p>A shared frozen decoder reads the predicted state alongside the original history to forecast depth, point clouds, and camera poses.</p></li>
+        </ol>
       </div>
     </section>
 
     <section class="section shell" id="results" aria-labelledby="results-title">
-      <div class="section-heading">
-        <h2 id="results-title">What EventWorld forecasts</h2>
-        <p>Depth and point clouds on EventScape Town05, and camera poses on M3ED without fine-tuning.</p>
-      </div>
-      <div class="result-options segmented" role="group" aria-label="Geometry result">
-        <button type="button" data-result="depth" aria-pressed="true">Depth</button>
-        <button type="button" data-result="cloud" aria-pressed="false">Point clouds</button>
-        <button type="button" data-result="pose" aria-pressed="false">Camera poses</button>
+      <div class="results-head">
+        <div class="section-heading">
+          <h2 id="results-title">What EventWorld forecasts</h2>
+          <p>Depth and point clouds on EventScape Town05, and camera poses on M3ED without fine-tuning.</p>
+        </div>
+        <div class="result-options segmented" role="group" aria-label="Geometry result">
+          <button type="button" data-result="depth" aria-pressed="true">Depth</button>
+          <button type="button" data-result="cloud" aria-pressed="false">Point clouds</button>
+          <button type="button" data-result="pose" aria-pressed="false">Camera poses</button>
+        </div>
       </div>
       <figure class="result-figure" id="result-figure">
         <a id="result-link" href="assets/eventscape-depth.webp" target="_blank" rel="noopener" aria-label="Open the full-resolution result">
