@@ -1,11 +1,11 @@
 <h1 align="center">EventWorld</h1>
 <p align="center"><strong>Forecasting Future Geometry from Events Alone</strong></p>
 <p align="center">
-  <strong>Junhao Yan<sup>1</sup>, Dachun Kai<sup>2*</sup>, Xiaoyan Sun<sup>3</sup></strong><br>
+  <strong>Junhao Yan<sup>1</sup>, Dachun Kai<sup>2†</sup>, Xiaoyan Sun<sup>3</sup></strong><br>
   <sup>1</sup> Wuhan University of Technology, Wuhan, China<br>
   <sup>2</sup> Nanyang Technological University, Singapore, Singapore<br>
   <sup>3</sup> University of Science and Technology of China, Hefei, China<br>
-  <sup>*</sup> Corresponding author
+  <sup>†</sup> Corresponding author
 </p>
 <p align="center">Project contact · Junhao Yan · <a href="mailto:yanjunhao@whut.edu.cn">yanjunhao@whut.edu.cn</a></p>
 <p align="center">
