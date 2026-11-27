@@ -82,7 +82,7 @@ nav a:hover, .site-footer a:hover { color: var(--accent); text-decoration: under
 .paper-authors li { padding-inline: clamp(.6rem, 1.2vw, 1rem); }
 .paper-authors li + li { border-inline-start: 1px solid var(--line); }
 .author-name { font: 600 clamp(1.12rem, 1.5vw, 1.34rem)/1.25 var(--sans); letter-spacing: -.015em; }
-.author-name sup { margin-left: .12em; color: var(--accent); font: 600 .56em/0 var(--sans); }
+.author-name sup { margin-left: .12em; font: 600 .68em/0 var(--serif); }
 .author-affiliation { margin-top: .38rem; color: var(--ink); font-size: .88rem; text-wrap: pretty; }
 .author-affiliation span { display: block; color: var(--muted); }
 .author-role, .author-contact { display: inline-block; margin-top: .38rem; font-size: .8rem; color: #32645f; }
