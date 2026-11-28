@@ -92,11 +92,24 @@ nav a:hover, .site-footer a:hover { color: var(--accent); text-decoration: under
 .code-icon { font: 600 .87rem var(--mono); color: var(--mint); }
 .hero-actions, .hero-action-group { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; }
 .hero-actions { margin-top: clamp(1.15rem, 2.5vw, 1.85rem); }
-.star-prompt { margin-top: .55rem; color: var(--muted); font-size: .9rem; }
-.star-prompt a { color: var(--accent); text-underline-offset: .2em; }
 .action { display: inline-flex; align-items: center; justify-content: center; gap: .48rem; min-height: 2.9rem; padding: .57rem 1.05rem; border-radius: .8rem; border: 1px solid transparent; text-decoration: none; font-size: .91rem; font-weight: 650; transition: background .18s, color .18s, border-color .18s; }
 .primary { background: var(--navy); color: var(--white); }
 .primary:hover { background: var(--accent); }
+.github-actions { display: inline-flex; }
+.github-actions .primary { border-start-end-radius: 0; border-end-end-radius: 0; }
+.github-actions a:focus-visible { z-index: 1; }
+.github-star {
+  gap: .28rem;
+  padding-inline: .6rem;
+  border-color: var(--line);
+  border-inline-start: 0;
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  background: var(--white);
+  color: var(--muted);
+}
+.github-star:hover { background: var(--light); color: var(--accent); }
+.github-star-icon { font-size: 1.08em; line-height: 1; }
 .quiet { border-color: #b6cdca; color: var(--navy); background: #fbfdfc; }
 .quiet:hover { background: var(--light); border-color: #84aba4; }
 .action.pending { border-color: var(--line); color: var(--muted); }
